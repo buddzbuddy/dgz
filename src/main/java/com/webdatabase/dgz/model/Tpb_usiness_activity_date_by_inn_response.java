@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-public class Tpb_usiness_activity_date_by_inn_response {
+public class Tpb_usiness_activity_date_by_inn_response extends AuditModel{
 	
 	@Id
     @GeneratedValue(generator = "tpb_usiness_activity_date_by_inn_response_generator")

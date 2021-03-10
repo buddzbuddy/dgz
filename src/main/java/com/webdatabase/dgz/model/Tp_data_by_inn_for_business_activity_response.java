@@ -4,7 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-public class Tp_data_by_inn_for_business_activity_response {
+public class Tp_data_by_inn_for_business_activity_response extends AuditModel {
 	
 	@Id
     @GeneratedValue(generator = "tp_data_by_inn_for_business_activity_response_generator")
