@@ -20,10 +20,9 @@ public class Counterpart extends AuditModel {
             sequenceName = "counterpart_sequence",
             initialValue = 1000
     )
+	
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
     private String name;
     
     private int counterpart_type;
