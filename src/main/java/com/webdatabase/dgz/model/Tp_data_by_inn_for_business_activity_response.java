@@ -1,8 +1,14 @@
 package com.webdatabase.dgz.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+
+@Entity
+@Table (name = "tp_data_by_inn_for_business_activity_responses")
 
 public class Tp_data_by_inn_for_business_activity_response extends AuditModel {
 	
@@ -13,6 +19,7 @@ public class Tp_data_by_inn_for_business_activity_response extends AuditModel {
             sequenceName = "tp_data_by_inn_for_business_activity_response_sequence",
             initialValue = 1000
     )
+	private Long id;
 
 	private String inn;
 	
@@ -23,6 +30,15 @@ public class Tp_data_by_inn_for_business_activity_response extends AuditModel {
 	private String fullAddress;
 	
 	private String zip;
+	
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getInn() {
 		return inn;

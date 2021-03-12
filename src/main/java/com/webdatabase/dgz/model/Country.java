@@ -2,6 +2,7 @@ package com.webdatabase.dgz.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -12,8 +13,12 @@ import javax.validation.constraints.Size;
 @Table(name = "countries")
 public class Country extends AuditModel {
 	
+	
 	@Id
-    @GeneratedValue(generator = "country_generator")
+    @GeneratedValue(
+    	generator = "country_generator"
+    	
+    )
     @SequenceGenerator(
             name = "country_generator",
             sequenceName = "country_sequence",

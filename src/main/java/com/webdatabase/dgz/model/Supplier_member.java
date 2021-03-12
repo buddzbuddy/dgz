@@ -2,10 +2,15 @@ package com.webdatabase.dgz.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
+
+@Entity
+@Table (name = "supplier_members")
 public class Supplier_member extends AuditModel {
 
 	@Id
@@ -15,6 +20,7 @@ public class Supplier_member extends AuditModel {
             sequenceName = "supplier_member_sequence",
             initialValue = 1000
     )
+	private Long id;
 	
 	private int supplier;
 	
@@ -69,6 +75,14 @@ public class Supplier_member extends AuditModel {
 	private int houseId;
 	
 	private int memberTypeId;
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public int getSupplier() {
 		return supplier;

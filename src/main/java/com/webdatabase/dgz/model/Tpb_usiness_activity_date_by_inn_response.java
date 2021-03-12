@@ -2,9 +2,14 @@ package com.webdatabase.dgz.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "tpb_usiness_activity_date_by_inn_responses")
 
 public class Tpb_usiness_activity_date_by_inn_response extends AuditModel{
 	
@@ -15,6 +20,7 @@ public class Tpb_usiness_activity_date_by_inn_response extends AuditModel{
             sequenceName = "tpb_usiness_activity_date_by_inn_response_sequence",
             initialValue = 1000
     )
+	private Long id;
 	
 	private String legalAddress;
 	
@@ -31,6 +37,14 @@ public class Tpb_usiness_activity_date_by_inn_response extends AuditModel{
 	private String taxTypeName;
 	
 	private String tin;
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Long getId() {
+		return id;
+	}
 
 	public String getLegalAddress() {
 		return legalAddress;
