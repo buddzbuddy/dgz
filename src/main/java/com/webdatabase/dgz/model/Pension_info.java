@@ -29,7 +29,7 @@ public class Pension_info extends AuditModel{
 	
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
