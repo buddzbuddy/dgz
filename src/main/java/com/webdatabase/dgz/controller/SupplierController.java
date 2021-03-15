@@ -53,11 +53,13 @@ public class SupplierController {
 					supplier.setIsResident(supplierRequest.getIsResident());
 					supplier.setLegalAddress(supplierRequest.getLegalAddress());
 					supplier.setName(supplierRequest.getName());
-					supplier.setOwnership_type(supplierRequest.getOwnership_type());
 					supplier.setRayonCode(supplierRequest.getRayonCode());
 					supplier.setTelephone(supplierRequest.getTelephone());
 					supplier.setUpdatedAt(supplierRequest.getUpdatedAt());
 					supplier.setZip(supplierRequest.getZip());
+					supplier.setIsBlack(supplierRequest.getIsBlack());
+					supplier.set_Ownership_type(supplierRequest.get_Ownership_type());
+					supplier.setIndustry(supplierRequest.getIndustry());
 					return supplierRepository.save(supplier);
 				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+id));
 	}

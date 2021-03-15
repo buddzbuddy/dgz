@@ -32,8 +32,8 @@ public class License extends AuditModel{
 	
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "supplier_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
 	private Supplier supplier;
@@ -45,8 +45,8 @@ public class License extends AuditModel{
 	@Nullable
 	private Date issueDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "license_type_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
 	private License_type license_type;

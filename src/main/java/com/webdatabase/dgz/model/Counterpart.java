@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.lang.Nullable;
+
 @Entity
 @Table(name = "counterparts")
 public class Counterpart extends AuditModel {
@@ -25,6 +27,7 @@ public class Counterpart extends AuditModel {
 
     private String name;
     
+    @Nullable
     private int counterpart_type;
     
     @Column(columnDefinition = "text")

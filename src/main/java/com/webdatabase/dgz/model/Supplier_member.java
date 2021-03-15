@@ -4,9 +4,14 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.springframework.lang.Nullable;
+
+import com.webdatabase.dgz.model.Supplier;
 
 
 @Entity
@@ -14,15 +19,20 @@ import javax.persistence.Table;
 public class Supplier_member extends AuditModel {
 
 	@Id
-    @GeneratedValue(generator = "supplier_member_generator")
+    @GeneratedValue(generator = "supplier_member_generator",
+    		strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
             name = "supplier_member_generator",
             sequenceName = "supplier_member_sequence",
             initialValue = 1000
     )
+	
+	
 	private Long id;
 	
-	private int supplier;
+	private Member_type member_type;
+	
+	private Supplier _supplier;
 	
 	private String pin;
 	
@@ -62,18 +72,25 @@ public class Supplier_member extends AuditModel {
 	
 	private String addressHouse;
 	
+	@Nullable
 	private int regionId;
 	
+	@Nullable
 	private int districtId;
 	
+	@Nullable
 	private int areaId;
 	
+	@Nullable
 	private int subareaId;
 	
+	@Nullable
 	private int streetId;
 	
+	@Nullable
 	private int houseId;
 	
+	@Nullable
 	private int memberTypeId;
 	
 	public Long getId() {
@@ -83,13 +100,15 @@ public class Supplier_member extends AuditModel {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
 
-	public int getSupplier() {
-		return supplier;
+	public Supplier get_supplier() {
+		return _supplier;
 	}
 
-	public void setSupplier(int supplier) {
-		this.supplier = supplier;
+	public void set_supplier(Supplier _supplier) {
+		this._supplier = _supplier;
 	}
 
 	public String getPin() {
@@ -298,6 +317,14 @@ public class Supplier_member extends AuditModel {
 
 	public void setMemberTypeId(int memberTypeId) {
 		this.memberTypeId = memberTypeId;
+	}
+
+	public Member_type getMember_type() {
+		return member_type;
+	}
+
+	public void setMember_type(Member_type member_type) {
+		this.member_type = member_type;
 	}
 	
 	

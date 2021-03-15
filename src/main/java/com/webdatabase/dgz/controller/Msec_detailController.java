@@ -49,11 +49,11 @@ public class Msec_detailController {
 					msec_detail.setDisabilityGroup(msec_detailRequest.getDisabilityGroup());
 					msec_detail.setExaminationDate(msec_detailRequest.getExaminationDate());
 					msec_detail.setExaminationtype(msec_detailRequest.getExaminationtype());
-					msec_detail.setFrom(msec_detailRequest.getFrom());
+					msec_detail.setFromDate(msec_detailRequest.getFromDate());
 					msec_detail.setOrgnizationName(msec_detailRequest.getOrgnizationName());
 					msec_detail.setReExamination(msec_detailRequest.getReExamination());
 					msec_detail.setSupplier_member(msec_detailRequest.getSupplier_member());
-					msec_detail.setTo(msec_detailRequest.getTo());
+					msec_detail.setToDate(msec_detailRequest.getToDate());
 					msec_detailRequest.setUpdatedAt(msec_detailRequest.getUpdatedAt());
 					return msec_detailRepository.save(msec_detail);
 				}).orElseThrow(()-> new ResourceNotFoundException("Msec detail not found with id "+ id));

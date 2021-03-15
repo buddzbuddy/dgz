@@ -2,16 +2,20 @@ package com.webdatabase.dgz.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "registrators")
 public class Registrator extends AuditModel {
 	
 	@Id
-    @GeneratedValue(generator = "registrator_generator")
+    @GeneratedValue(generator = "registrator_generator",
+    		strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
             name = "registrator_generator",
             sequenceName = "registrator_sequence",
@@ -21,6 +25,7 @@ public class Registrator extends AuditModel {
 	
 	private String name;
 	
+	@Nullable
 	private int counterpart;
 	
 	private String contactData;

@@ -1,10 +1,20 @@
 package com.webdatabase.dgz.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.lang.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "suppliers")
@@ -22,7 +32,13 @@ public class Supplier extends AuditModel {
 	
 	private String name;
 	
-	private int ownership_type;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ownership_type_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+	private Ownership_type _ownership_type;
+	
+	private Industry industry;
 	
 	private String inn;
 	
@@ -42,7 +58,12 @@ public class Supplier extends AuditModel {
 	
 	private String rayonCode;
 	
+	@Nullable
 	private Boolean isResident;
+	
+	@Nullable
+	private Boolean isBlack;
+	
 
 	public Long getId() {
 		return id;
@@ -59,13 +80,14 @@ public class Supplier extends AuditModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public int getOwnership_type() {
-		return ownership_type;
+	
+	
+	public Ownership_type get_Ownership_type() {
+		return _ownership_type;
 	}
 
-	public void setOwnership_type(int ownership_type) {
-		this.ownership_type = ownership_type;
+	public void set_Ownership_type(Ownership_type ownership_type) {
+		this._ownership_type = ownership_type;
 	}
 
 	public String getInn() {
@@ -146,5 +168,21 @@ public class Supplier extends AuditModel {
 
 	public void setIsResident(Boolean isResident) {
 		this.isResident = isResident;
+	}
+
+	public Boolean getIsBlack() {
+		return isBlack;
+	}
+
+	public void setIsBlack(Boolean isBlack) {
+		this.isBlack = isBlack;
+	}
+
+	public Industry getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(Industry industry) {
+		this.industry = industry;
 	}
 }

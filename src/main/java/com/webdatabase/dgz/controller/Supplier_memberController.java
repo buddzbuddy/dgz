@@ -69,10 +69,11 @@ public class Supplier_memberController {
 					supplier_member.setRegionId(supplier_memberRequest.getRegionId());
 					supplier_member.setStreetId(supplier_memberRequest.getStreetId());
 					supplier_member.setSubareaId(supplier_memberRequest.getSubareaId());
-					supplier_member.setSupplier(supplier_memberRequest.getSupplier());
+					supplier_member.setMember_type(supplier_memberRequest.getMember_type());
 					supplier_member.setSurname(supplier_memberRequest.getSurname());
 					supplier_member.setUpdatedAt(supplier_memberRequest.getUpdatedAt());
 					supplier_member.setVoidStatus(supplier_memberRequest.getVoidStatus());
+					supplier_member.set_supplier(supplier_memberRequest.get_supplier());
 					return supplier_memberRepository.save(supplier_member);
 				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ id));
 	}

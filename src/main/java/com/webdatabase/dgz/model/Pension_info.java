@@ -30,7 +30,7 @@ public class Pension_info extends AuditModel{
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = true)
+    @JoinColumn(name = "supplier_member_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
 	private Supplier_member supplier_member;

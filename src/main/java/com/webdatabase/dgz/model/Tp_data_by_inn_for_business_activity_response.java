@@ -1,4 +1,4 @@
-package com.webdatabase.dgz.model;
+ package com.webdatabase.dgz.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

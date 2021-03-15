@@ -48,7 +48,7 @@ public class CurrencyController {
 					currency.setName(currencyRequest.getName());
 					currency.setUpdatedAt(currencyRequest.getUpdatedAt());
 					return currencyRepository.save(currency);
-				}).orElseThrow(()-> new ResourceNotFoundException("Entity not found with id "+ id));
+				}).orElseThrow(()-> new ResourceNotFoundException("Currency not found with id "+ id));
 	}
 	
 	@DeleteMapping("/currencies{id}")
@@ -57,6 +57,6 @@ public class CurrencyController {
 				.map(currency -> {
 					currencyRepository.delete(currency);
 					return ResponseEntity.ok().build();
-				}).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id "+ id));
+				}).orElseThrow(() -> new ResourceNotFoundException("Currency not found with id "+ id));
 	}
 }

@@ -11,6 +11,8 @@ import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.lang.Nullable;
+
 @Entity
 @Table(name = "msec_details")
 public class Msec_detail extends AuditModel {
@@ -28,18 +30,22 @@ public class Msec_detail extends AuditModel {
     @Size(min = 3, max = 100)
     private String orgnizationName;
     
+    @Nullable
     private Date examinationDate;
     
     private String examinationtype;
     
     private String disabilityGroup;
     
-    private Date from;
+    @Nullable
+    private Date fromDate;
     
-    private Date to;
+    @Nullable
+    private Date toDate;
     
     private String reExamination;
     
+    @Nullable
     private int supplier_member;
 
 	public Long getId() {
@@ -82,20 +88,20 @@ public class Msec_detail extends AuditModel {
 		this.disabilityGroup = disabilityGroup;
 	}
 
-	public Date getFrom() {
-		return from;
+	public Date getFromDate() {
+		return fromDate;
 	}
 
-	public void setFrom(Date from) {
-		this.from = from;
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
 	}
 
-	public Date getTo() {
-		return to;
+	public Date getToDate() {
+		return toDate;
 	}
 
-	public void setTo(Date to) {
-		this.to = to;
+	public void setToDate(Date to) {
+		this.toDate = to;
 	}
 
 	public String getReExamination() {
