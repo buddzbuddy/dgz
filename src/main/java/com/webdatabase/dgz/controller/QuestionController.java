@@ -10,11 +10,11 @@ import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.model.Question;
 import com.webdatabase.dgz.repository.QuestionRepository;
 
+
 import javax.validation.Valid;
 
 @RestController
 public class QuestionController {
-
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -49,4 +49,5 @@ public class QuestionController {
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
     }
+    
 }
