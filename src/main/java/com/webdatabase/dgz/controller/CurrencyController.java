@@ -57,8 +57,8 @@ public class CurrencyController {
 	public Currency updateCurrency(@PathVariable Long id, @Valid @RequestBody Currency currencyRequest) {
 		return currencyRepository.findById(id)
 				.map(currency -> {
-					currency.setCreatedAt(currencyRequest.getCreatedAt());
 					currency.setName(currencyRequest.getName());
+					currency.setCreatedAt(currencyRequest.getCreatedAt());
 					currency.setUpdatedAt(currencyRequest.getUpdatedAt());
 					return currencyRepository.save(currency);
 				}).orElseThrow(()-> new ResourceNotFoundException("Currency not found with id "+ id));

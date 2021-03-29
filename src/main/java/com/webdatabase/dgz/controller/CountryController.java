@@ -53,6 +53,8 @@ public class CountryController {
 		return countriesRepository.findById(id)
 				.map(country -> {
 					country.setName(countryRequest.getName());
+					country.setCreatedAt(countryRequest.getCreatedAt());
+					country.setUpdatedAt(countryRequest.getUpdatedAt());
 					return countriesRepository.save(country);
 				}).orElseThrow(() -> new ResourceNotFoundException("Country not found with id "+ id));
 	}

@@ -62,8 +62,8 @@ public class Member_typeController {
                                    @Valid @RequestBody Member_type member_typeRequest) {
         return member_typeRepository.findById(id)
                 .map(member_type -> {
-                	member_type.setName(member_typeRequest.getName());
                 	member_type.setCreatedAt(member_typeRequest.getCreatedAt());
+                	member_type.setName(member_typeRequest.getName());
                 	member_type.setUpdatedAt(member_typeRequest.getUpdatedAt());
                     return member_typeRepository.save(member_type);
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));

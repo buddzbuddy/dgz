@@ -61,8 +61,8 @@ public class License_typeController {
         return license_typeRepository.findById(id)
                 .map(license_type -> {
                 	license_type.setName(license_typeRequest.getName());
-                	license_type.setCreatedAt(license_typeRequest.getCreatedAt());
-                	license_type.setUpdatedAt(license_typeRequest.getUpdatedAt());
+                	license_type.setCreatedAt(license_type.getCreatedAt());
+                	license_type.setUpdatedAt(license_type.getUpdatedAt());
                     return license_typeRepository.save(license_type);
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }
