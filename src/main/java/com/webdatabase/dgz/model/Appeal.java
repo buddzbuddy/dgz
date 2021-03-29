@@ -23,7 +23,8 @@ public class Appeal extends AuditModel{
     @SequenceGenerator(
             name = "appeal_generator",
             sequenceName = "appeal_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	private Long id;

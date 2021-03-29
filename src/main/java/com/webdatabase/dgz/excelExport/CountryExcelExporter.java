@@ -53,8 +53,13 @@ public class CountryExcelExporter {
 			cell.setCellValue((Boolean) value);
 		} else if(value instanceof Date) {
 			cell.setCellValue((Date) value);
-		} else {
+		} else if (value instanceof Long) {
+			cell.setCellValue((Long) value);
+		} else if (value instanceof String) {
 			cell.setCellValue((String) value);
+		}
+		else {
+			cell.setCellValue("Value type is unknown");
 		}
 		cell.setCellStyle(style);
 	}

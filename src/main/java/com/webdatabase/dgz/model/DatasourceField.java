@@ -30,7 +30,8 @@ public class DatasourceField extends AuditModel {
     @SequenceGenerator(
             name = "datasource_field_generator",
             sequenceName = "datasource_field_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	

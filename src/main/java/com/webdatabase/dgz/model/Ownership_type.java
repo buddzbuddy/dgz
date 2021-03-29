@@ -17,7 +17,8 @@ public class Ownership_type extends AuditModel {
     @SequenceGenerator(
             name = "ownership_type_generator",
             sequenceName = "ownership_type_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
     private Long id;
 

@@ -17,7 +17,8 @@ public class Tp_data_by_inn_for_business_activity_response extends AuditModel {
     @SequenceGenerator(
             name = "tp_data_by_inn_for_business_activity_response_generator",
             sequenceName = "tp_data_by_inn_for_business_activity_response_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	private Long id;
 

@@ -22,7 +22,8 @@ public class Country extends AuditModel {
     @SequenceGenerator(
             name = "country_generator",
             sequenceName = "country_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
     private Long id;
 

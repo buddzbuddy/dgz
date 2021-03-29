@@ -15,7 +15,8 @@ public class Industry extends AuditModel{
     @SequenceGenerator(
             name = "industry_generator",
             sequenceName = "industry_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	private Long id;

@@ -15,7 +15,8 @@ public class License_type extends AuditModel{
     @SequenceGenerator(
             name = "license_type_generator",
             sequenceName = "license_type_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	private Long id;

@@ -17,7 +17,8 @@ public class Counterpart_type extends AuditModel {
     @SequenceGenerator(
             name = "counterpart_type_generator",
             sequenceName = "counterpart_type_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	private Long id;

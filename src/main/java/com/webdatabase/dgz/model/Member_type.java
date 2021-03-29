@@ -15,7 +15,8 @@ public class Member_type extends AuditModel{
     @SequenceGenerator(
             name = "member_type_generator",
             sequenceName = "member_type_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	private Long id;

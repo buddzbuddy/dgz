@@ -24,7 +24,8 @@ public class Supplier_member extends AuditModel {
     @SequenceGenerator(
             name = "supplier_member_generator",
             sequenceName = "supplier_member_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	

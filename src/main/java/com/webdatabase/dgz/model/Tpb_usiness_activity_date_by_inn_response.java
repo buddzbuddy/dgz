@@ -18,7 +18,8 @@ public class Tpb_usiness_activity_date_by_inn_response extends AuditModel{
     @SequenceGenerator(
             name = "tpb_usiness_activity_date_by_inn_response_generator",
             sequenceName = "tpb_usiness_activity_date_by_inn_response_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	private Long id;
 	

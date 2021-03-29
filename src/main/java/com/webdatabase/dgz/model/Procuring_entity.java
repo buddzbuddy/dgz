@@ -15,7 +15,8 @@ public class Procuring_entity extends AuditModel {
     @SequenceGenerator(
             name = "procuring_entity_generator",
             sequenceName = "procuring_entity_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
     private Long id;

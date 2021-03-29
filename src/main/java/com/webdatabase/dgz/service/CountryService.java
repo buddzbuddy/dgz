@@ -30,6 +30,6 @@ public class CountryService {
 	}
 	
 	public List<Country> listAll() {
-		return countryRepository.findAll(Sort.by("Country").ascending());
+		return countryRepository.findAll(Sort.by("name").ascending());
 	}
 }

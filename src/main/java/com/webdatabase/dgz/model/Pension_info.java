@@ -24,7 +24,8 @@ public class Pension_info extends AuditModel{
     @SequenceGenerator(
             name = "pension_info_generator",
             sequenceName = "pension_info_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	
 	private Long id;

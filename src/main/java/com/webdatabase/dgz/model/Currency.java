@@ -17,7 +17,8 @@ public class Currency extends AuditModel {
     @SequenceGenerator(
             name = "currency_generator",
             sequenceName = "currency_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
     private Long id;
 

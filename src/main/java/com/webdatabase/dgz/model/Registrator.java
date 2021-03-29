@@ -19,7 +19,8 @@ public class Registrator extends AuditModel {
     @SequenceGenerator(
             name = "registrator_generator",
             sequenceName = "registrator_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
     private Long id;
 	

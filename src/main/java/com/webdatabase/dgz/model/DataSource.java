@@ -17,7 +17,8 @@ public class DataSource extends AuditModel {
     @SequenceGenerator(
             name = "datasource_generator",
             sequenceName = "datasource_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
     private Long id;
     public Long getId() {

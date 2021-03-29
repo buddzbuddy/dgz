@@ -22,7 +22,8 @@ public class Msec_detail extends AuditModel {
     @SequenceGenerator(
             name = "msec_detail_generator",
             sequenceName = "msec_detail_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
     private Long id;
 

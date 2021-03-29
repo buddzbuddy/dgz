@@ -15,7 +15,8 @@ public class Taxe_code extends AuditModel{
     @SequenceGenerator(
             name = "taxe_code_generator",
             sequenceName = "taxe_code_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	private Long id;
 	

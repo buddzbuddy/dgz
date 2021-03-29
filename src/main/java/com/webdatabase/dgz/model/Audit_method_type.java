@@ -15,7 +15,8 @@ public class Audit_method_type extends AuditModel{
     @SequenceGenerator(
             name = "audit_method_type_generator",
             sequenceName = "audit_method_type_sequence",
-            initialValue = 1000
+            initialValue = 1000,
+            allocationSize = 1
     )
 	private Long id;
 	
