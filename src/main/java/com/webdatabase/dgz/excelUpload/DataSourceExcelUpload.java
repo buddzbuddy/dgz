@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.webdatabase.dgz.model.DataSource;
+import com.webdatabase.dgz.model.Datasource;
 
 public class DataSourceExcelUpload {
 	public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -26,13 +26,13 @@ public class DataSourceExcelUpload {
 		}
 		return true;
 	}
-	public static List<DataSource> excelToDataSources(InputStream iStream) {
+	public static List<Datasource> excelToDataSources(InputStream iStream) {
 		try {
 			Workbook workbook = new XSSFWorkbook(iStream);
 			Sheet sheet = workbook.getSheet(SHEET);
 			Iterator<Row> rows = sheet.iterator();
 			
-			List<DataSource> dataSources = new ArrayList<DataSource>();
+			List<Datasource> datasources = new ArrayList<Datasource>();
 			
 			int rowNumber = 0;
 			while (rows.hasNext()) {
@@ -44,7 +44,7 @@ public class DataSourceExcelUpload {
 				}
 				Iterator<Cell> cellsInRow = currentRow.iterator();
 				
-				DataSource dataSource = new DataSource();
+				Datasource datasource = new Datasource();
 				
 				int cellIndex = 0;
 				while (cellsInRow.hasNext()) {
@@ -52,30 +52,30 @@ public class DataSourceExcelUpload {
 					
 					switch (cellIndex) {
 					case 0:
-						dataSource.setId((long) currentCell.getNumericCellValue());
+						datasource.setId((long) currentCell.getNumericCellValue());
 						break;
 					case 1:
-						dataSource.setName(currentCell.getStringCellValue());
+						datasource.setName(currentCell.getStringCellValue());
 						break;
 					case 2:
-						dataSource.setDescription(currentCell.getStringCellValue());
+						datasource.setDescription(currentCell.getStringCellValue());
 						break;
 					case 3:
-						dataSource.setCreatedAt(currentCell.getDateCellValue());
+						datasource.setCreatedAt(currentCell.getDateCellValue());
 						break;
 					case 4:
-						dataSource.setUpdatedAt(currentCell.getDateCellValue());
+						datasource.setUpdatedAt(currentCell.getDateCellValue());
 						break;
 					default:
 						break;
 					}
 					cellIndex++;
 				}
-				dataSources.add(dataSource);
+				datasources.add(datasource);
 			}
 			workbook.close();
 			
-			return dataSources;
+			return datasources;
 		} catch (IOException e) {
 			throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
 		}

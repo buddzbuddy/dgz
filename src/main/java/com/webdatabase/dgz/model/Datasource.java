@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "datasources")
-public class DataSource extends AuditModel {
+public class Datasource extends AuditModel {
 	@Id
     @GeneratedValue(generator = "datasource_generator")
     @SequenceGenerator(
@@ -30,6 +30,7 @@ public class DataSource extends AuditModel {
 
     @NotBlank
     @Size(min = 3, max = 100)
+    @Column(name = "name")
     private String name;
     
     public String getName()

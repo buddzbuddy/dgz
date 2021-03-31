@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.model.DatasourceField;
-import com.webdatabase.dgz.repository.DataSourceRepository;
+import com.webdatabase.dgz.repository.DatasourceRepository;
 import com.webdatabase.dgz.repository.DatasourceFieldRepository;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class DatasourceFieldController {
     private DatasourceFieldRepository datasourceFieldRepository;
     
     @Autowired
-    private DataSourceRepository datasourceRepo;
+    private DatasourceRepository datasourceRepo;
 
     @GetMapping("/datasources/{datasourceId}/fields")
     public List<DatasourceField> getFieldsByDatasourceId(@PathVariable Long datasourceId) {

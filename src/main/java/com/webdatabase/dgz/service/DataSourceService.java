@@ -11,25 +11,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.webdatabase.dgz.excelUpload.DataSourceExcelUpload;
-import com.webdatabase.dgz.model.DataSource;
-import com.webdatabase.dgz.repository.DataSourceRepository;
+import com.webdatabase.dgz.model.Datasource;
+import com.webdatabase.dgz.repository.DatasourceRepository;
 
 @Service
 @Transactional
 public class DataSourceService {
 	@Autowired
-	private DataSourceRepository dataSourceRepository;
+	private DatasourceRepository datasourceRepository;
 	
 	 public void save(MultipartFile file) {
 	    try {
-	      List<DataSource> dataSources = DataSourceExcelUpload.excelToDataSources(file.getInputStream());
-	      dataSourceRepository.saveAll(dataSources);
+	      List<Datasource> datasources = DataSourceExcelUpload.excelToDataSources(file.getInputStream());
+	      datasourceRepository.saveAll(datasources);
 	    } catch (IOException e) {
 	      throw new RuntimeException("fail to store excel data: " + e.getMessage());
 	    }
 	}
 	
-	public List<DataSource> listAll(){
-		return dataSourceRepository.findAll(Sort.by("Data Source").ascending());
+	public List<Datasource> listAll(){
+		return datasourceRepository.findAll(Sort.by("Data Source").ascending());
 	}
 }

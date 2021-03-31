@@ -14,14 +14,14 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.webdatabase.dgz.model.DataSource;
+import com.webdatabase.dgz.model.Datasource;
 
 public class DataSourceExcelExporter {
 	private XSSFWorkbook xssfWorkbook;
 	private XSSFSheet xssfSheet;
-	private List<DataSource> listDataSources;
+	private List<Datasource> listDataSources;
 	
-	public DataSourceExcelExporter(List<DataSource> listDataSources) {
+	public DataSourceExcelExporter(List<Datasource> listDataSources) {
 		this.listDataSources = listDataSources;
 		xssfWorkbook = new XSSFWorkbook();
 	}
@@ -67,15 +67,15 @@ public class DataSourceExcelExporter {
 		font.setFontHeight(14);
 		style.setFont(font);
 		
-		for(DataSource dataSource : listDataSources) {
+		for(Datasource datasource : listDataSources) {
 			Row row = xssfSheet.createRow(rowCount++);
 			int columnCount = 0;
 			
-			createCell(row, columnCount++, dataSource.getId(), style);
-			createCell(row, columnCount++, dataSource.getName(), style);
-			createCell(row, columnCount++, dataSource.getDescription(), style);
-			createCell(row, columnCount++, dataSource.getCreatedAt(), style);
-			createCell(row, columnCount++, dataSource.getUpdatedAt(), style);
+			createCell(row, columnCount++, datasource.getId(), style);
+			createCell(row, columnCount++, datasource.getName(), style);
+			createCell(row, columnCount++, datasource.getDescription(), style);
+			createCell(row, columnCount++, datasource.getCreatedAt(), style);
+			createCell(row, columnCount++, datasource.getUpdatedAt(), style);
 		}
 	}
 	

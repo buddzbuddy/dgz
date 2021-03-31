@@ -2,6 +2,7 @@ package com.webdatabase.dgz.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -47,15 +48,18 @@ public class DatasourceField extends AuditModel {
     @JoinColumn(name = "datasource_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-	private DataSource datasource;
+	private Datasource datasource;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "label")
 	private String label;
+	@Column(name = "data_type")
 	private String dataType;
 	
-	public DataSource getDatasource() {
+	public Datasource getDatasource() {
 		return datasource;
 	}
-	public void setDatasource(DataSource datasource) {
+	public void setDatasource(Datasource datasource) {
 		this.datasource = datasource;
 	}
 	

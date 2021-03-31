@@ -12,8 +12,8 @@ import com.webdatabase.dgz.excelExport.DataSourceExcelExporter;
 import com.webdatabase.dgz.excelUpload.DataSourceExcelUpload;
 import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
-import com.webdatabase.dgz.model.DataSource;
-import com.webdatabase.dgz.repository.DataSourceRepository;
+import com.webdatabase.dgz.model.Datasource;
+import com.webdatabase.dgz.repository.DatasourceRepository;
 import com.webdatabase.dgz.service.DataSourceService;
 
 import java.io.IOException;
@@ -30,43 +30,43 @@ import javax.validation.Valid;
 public class DataSourceController {
 
     @Autowired
-    private DataSourceRepository dataSourceRepository;
+    private DatasourceRepository datasourceRepository;
 
     @GetMapping("/datasources")
-    public Page<DataSource> getAll(Pageable pageable) {
-        return dataSourceRepository.findAll(pageable);
+    public Page<Datasource> getAll(Pageable pageable) {
+        return datasourceRepository.findAll(pageable);
     }
 
     @GetMapping("/datasources/{id}")
-    public Optional<DataSource> getOne(@PathVariable Long id) {
-        return dataSourceRepository.findById(id);
+    public Optional<Datasource> getOne(@PathVariable Long id) {
+        return datasourceRepository.findById(id);
     }
 
 
     @PostMapping("/datasources")
-    public DataSource create(@Valid @RequestBody DataSource dataSource) {
-        return dataSourceRepository.save(dataSource);
+    public Datasource create(@Valid @RequestBody Datasource datasource) {
+        return datasourceRepository.save(datasource);
     }
 
     @PutMapping("/datasources/{id}")
-    public DataSource update(@PathVariable Long id,
-                                   @Valid @RequestBody DataSource datasourceRequest) {
-        return dataSourceRepository.findById(id)
+    public Datasource update(@PathVariable Long id,
+                                   @Valid @RequestBody Datasource datasourceRequest) {
+        return datasourceRepository.findById(id)
                 .map(datasource -> {
                 	datasource.setName(datasourceRequest.getName());
                 	datasource.setDescription(datasourceRequest.getDescription());
                 	datasource.setCreatedAt(datasourceRequest.getCreatedAt());
                 	datasource.setUpdatedAt(datasourceRequest.getUpdatedAt());
-                    return dataSourceRepository.save(datasource);
+                    return datasourceRepository.save(datasource);
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }
 
 
     @DeleteMapping("/datasources/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return dataSourceRepository.findById(id)
+        return datasourceRepository.findById(id)
                 .map(datasource -> {
-                	dataSourceRepository.delete(datasource);
+                	datasourceRepository.delete(datasource);
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }
@@ -86,7 +86,7 @@ public class DataSourceController {
     	String headerValue = "attachment; filename=dataSource_"+currentDate + ".xlsx";
     	response.setHeader(headerKey, headerValue);
     	
-    	List<DataSource> listDataSources = dataSourceService.listAll();
+    	List<Datasource> listDataSources = dataSourceService.listAll();
     	
     	DataSourceExcelExporter excelExport = new DataSourceExcelExporter(listDataSources);
     	
@@ -116,15 +116,15 @@ public class DataSourceController {
     }
     
     @GetMapping("/datasources/excel")
-    public ResponseEntity<List<DataSource>> getAllDataSources() {
+    public ResponseEntity<List<Datasource>> getAllDataSources() {
         try {
-          List<DataSource> dataSources = dataSourceService.listAll();
+          List<Datasource> datasources = dataSourceService.listAll();
 
-          if (dataSources.isEmpty()) {
+          if (datasources.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(dataSources, HttpStatus.OK);
+          return new ResponseEntity<>(datasources, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
