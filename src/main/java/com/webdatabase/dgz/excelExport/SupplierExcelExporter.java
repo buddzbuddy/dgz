@@ -66,6 +66,8 @@ public class SupplierExcelExporter {
 			cell.setCellValue((Boolean) value);
 		} else if(value instanceof Date) {
 			cell.setCellValue((Date) value);
+		} else if(value instanceof Long ) {
+			cell.setCellValue((Long) value);
 		} else {
 			cell.setCellValue((String) value);
 		}
@@ -99,7 +101,7 @@ public class SupplierExcelExporter {
 			createCell(row, columnCount++, supplier.getRayonCode(), style);
 			createCell(row, columnCount++, supplier.getTelephone(), style);
 			createCell(row, columnCount++, supplier.getZip(), style);
-			createCell(row, columnCount++, supplier.get_Ownership_type(), style);
+			createCell(row, columnCount++, supplier.getOwnership_type(), style);
 			createCell(row, columnCount++, supplier.getCreatedAt(), style);
 			createCell(row, columnCount++, supplier.getUpdatedAt(), style);
 		}

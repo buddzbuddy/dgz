@@ -67,8 +67,6 @@ public class CounterpartController {
                 	counterpart.setComments(counterpartRequest.getComments());
                 	counterpart.setContactData(counterpartRequest.getContactData());
                 	counterpart.setCounterpart_type(counterpartRequest.getCounterpart_type());
-                	counterpart.setCreatedAt(counterpartRequest.getCreatedAt());
-                	counterpart.setUpdatedAt(counterpartRequest.getUpdatedAt());
                     return counterpartRepository.save(counterpart);
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }

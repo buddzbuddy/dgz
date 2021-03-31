@@ -51,6 +51,8 @@ public class CounterpartTypeExcelExporter {
 			cell.setCellValue((Integer) value);
 		} else if(value instanceof Boolean) {
 			cell.setCellValue((Boolean) value);
+		} else if(value instanceof Long ) {
+			cell.setCellValue((Long) value);
 		} else if(value instanceof Date) {
 			cell.setCellValue((Date) value);
 		} else {

@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,6 +30,8 @@ import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
 import com.webdatabase.dgz.model.Appeal;
 import com.webdatabase.dgz.repository.AppealRepository;
+import com.webdatabase.dgz.repository.Procuring_entityRepository;
+import com.webdatabase.dgz.repository.SupplierRepository;
 import com.webdatabase.dgz.service.AppealService;
 
 @RestController
@@ -39,45 +40,98 @@ public class AppealController {
 	@Autowired
 	private AppealRepository appealRepository;
 	
+	@Autowired
+	private SupplierRepository supplierRepository;
+	
+	@Autowired
+	private Procuring_entityRepository procuring_entityRepository;
+	
 	@GetMapping("/appeals")
     public Page<Appeal> getAll(Pageable pageable) {
         return appealRepository.findAll(pageable);
     }
 
-    @GetMapping("/appeals/{id}")
-    public Optional<Appeal> getOne(@PathVariable Long id) {
-        return appealRepository.findById(id);
+	@GetMapping("/supliers/{supplierId}/appeals")
+	public List<Appeal> getAppealsBySuppliersId(@PathVariable Long suplierId) {
+		return appealRepository.findBySupplierId(suplierId);
+	}
+	
+	@PostMapping("/suppliers/{supplierId}/appeals")
+    public Appeal addAppealSupplier(@PathVariable Long supplierId, @Valid @RequestBody Appeal appeal) {
+        return supplierRepository.findById(supplierId)
+        		.map(supplier -> {
+        			appeal.setSupplier(supplier);
+        			return appealRepository.save(appeal);
+        		}).orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id " + supplierId));
     }
-
-
-    @PostMapping("/appeals")
-    public Appeal create(@Valid @RequestBody Appeal appeal) {
-        return appealRepository.save(appeal);
-    }
-
-    @PutMapping("/appeals/{id}")
-    public Appeal update(@PathVariable Long id,
-                                   @Valid @RequestBody Appeal appealRequest) {
-        return appealRepository.findById(id)
-                .map(appeal -> {
-                	appeal.setDescription(appealRequest.getDescription());
-                	appeal.setProcuring_entity(appealRequest.getProcuring_entity());
-                	appeal.setSupplier(appealRequest.getSupplier());
-                	appeal.setCreatedAt(appealRequest.getCreatedAt());
-                	appeal.setUpdatedAt(appealRequest.getUpdatedAt());
-                    return appealRepository.save(appeal);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
-    }
-
-
-    @DeleteMapping("/appeals/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return appealRepository.findById(id)
+	
+	@PutMapping("/suppliers/{supplierId}/appeals/{appealId}")
+	public Appeal updateAppealSupplier(@PathVariable Long supplierId, @PathVariable Long appealId, @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody Appeal appealRequest) {
+		if (!supplierRepository.existsById(supplierId)) {
+			throw new ResourceNotFoundException("Supplier not found with id " + supplierId);
+		}
+		return appealRepository.findById(appealId)
+				.map(appeal -> {
+					appeal.setDescription(appealRequest.getDescription());
+					return appealRepository.save(appeal);
+				}).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
+	}
+	
+	@DeleteMapping("/suppliers/{supplierId}/appeals/{appealId}")
+    public ResponseEntity<?> deleteAppealSupplier(@PathVariable Long supplierId, @PathVariable Long appealId) {
+		if (!supplierRepository.existsById(supplierId)) {
+			throw new ResourceNotFoundException("Supplier not found with id " + supplierId);
+		}
+		return appealRepository.findById(appealId)
                 .map(appeal -> {
                 	appealRepository.delete(appeal);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
     }
+	
+	
+	/*----------------------*/
+	
+	
+	@GetMapping("/procuring_entities/{procuring_entityId}/appeals")
+	public List<Appeal> getAppealsByProcuring_entitiesId(@PathVariable Long procuring_entityId){
+		return appealRepository.fingByProcuring_entityId(procuring_entityId);
+	}
+
+    @PostMapping("/procuring_entities/{procuring_entityId}/appeals")
+    public Appeal addAppealProcuring_entity(@PathVariable Long procuring_entityId, @Valid @RequestBody Appeal appeal) {
+    	return procuring_entityRepository.findById(procuring_entityId)
+    			.map(procuring_entity -> {
+    				appeal.setProcuring_entity(procuring_entity);
+    				return appealRepository.save(appeal);
+    			}).orElseThrow(() -> new ResourceNotFoundException("Procuring entity not found with id" + procuring_entityId));
+    }
+    
+    @PutMapping("/procuring_entities/{procuring_entityId}/appeals/{appealId}")
+	public Appeal updateAppealProcuringEntity(@PathVariable Long procuring_entityId, @PathVariable Long appealId, @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody Appeal appealRequest) {
+		if (!procuring_entityRepository.existsById(procuring_entityId)) {
+			throw new ResourceNotFoundException("Procuring entity not found with id " + procuring_entityId);
+		}
+		return appealRepository.findById(appealId)
+				.map(appeal -> {
+					appeal.setDescription(appealRequest.getDescription());
+					return appealRepository.save(appeal);
+				}).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
+	}
+	
+	@DeleteMapping("/procuring_entities/{procuring_entityId}/appeals/{appealId}")
+    public ResponseEntity<?> deleteAppealProcuring_entity(@PathVariable Long procuring_entityId, @PathVariable Long appealId) {
+		if (!procuring_entityRepository.existsById(procuring_entityId)) {
+			throw new ResourceNotFoundException("Procuring entity not found with id " + procuring_entityId);
+		}
+		return appealRepository.findById(appealId)
+                .map(appeal -> {
+                	appealRepository.delete(appeal);
+                    return ResponseEntity.ok().build();
+                }).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
+    }
+
+    
     
     //Export to excel
     

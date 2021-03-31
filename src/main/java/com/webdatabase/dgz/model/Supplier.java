@@ -37,8 +37,13 @@ public class Supplier extends AuditModel {
     @JoinColumn(name = "ownership_type_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-	private Ownership_type _ownership_type;
+	private Ownership_type ownership_type;
 	
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "industry_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
 	private Industry industry;
 	
 	private String inn;
@@ -83,12 +88,12 @@ public class Supplier extends AuditModel {
 	}
 	
 	
-	public Ownership_type get_Ownership_type() {
-		return _ownership_type;
+	public Ownership_type getOwnership_type() {
+		return ownership_type;
 	}
 
-	public void set_Ownership_type(Ownership_type ownership_type) {
-		this._ownership_type = ownership_type;
+	public void setOwnership_type(Ownership_type ownership_type) {
+		this.ownership_type = ownership_type;
 	}
 
 	public String getInn() {

@@ -12,8 +12,8 @@ import com.webdatabase.dgz.excelExport.DataSourceExcelExporter;
 import com.webdatabase.dgz.excelUpload.DataSourceExcelUpload;
 import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
-import com.webdatabase.dgz.model.Datasource;
-import com.webdatabase.dgz.repository.DatasourceRepository;
+import com.webdatabase.dgz.model.DataSource;
+import com.webdatabase.dgz.repository.DataSourceRepository;
 import com.webdatabase.dgz.service.DataSourceService;
 
 import java.io.IOException;
@@ -30,33 +30,31 @@ import javax.validation.Valid;
 public class DataSourceController {
 
     @Autowired
-    private DatasourceRepository datasourceRepository;
+    private DataSourceRepository dataSourceRepository;
 
     @GetMapping("/datasources")
-    public Page<Datasource> getAll(Pageable pageable) {
-        return datasourceRepository.findAll(pageable);
+    public Page<DataSource> getAll(Pageable pageable) {
+        return dataSourceRepository.findAll(pageable);
     }
 
     @GetMapping("/datasources/{id}")
-    public Optional<Datasource> getOne(@PathVariable Long id) {
-        return datasourceRepository.findById(id);
+    public Optional<DataSource> getOne(@PathVariable Long id) {
+        return dataSourceRepository.findById(id);
     }
 
 
     @PostMapping("/datasources")
-    public Datasource create(@Valid @RequestBody Datasource datasource) {
-        return datasourceRepository.save(datasource);
+    public DataSource create(@Valid @RequestBody DataSource dataSource) {
+        return dataSourceRepository.save(dataSource);
     }
 
     @PutMapping("/datasources/{id}")
-    public Datasource update(@PathVariable Long id,
-                                   @Valid @RequestBody Datasource datasourceRequest) {
-        return datasourceRepository.findById(id)
+    public DataSource update(@PathVariable Long id,
+                                   @Valid @RequestBody DataSource datasourceRequest) {
+        return dataSourceRepository.findById(id)
                 .map(datasource -> {
                 	datasource.setName(datasourceRequest.getName());
                 	datasource.setDescription(datasourceRequest.getDescription());
-                	datasource.setCreatedAt(datasourceRequest.getCreatedAt());
-                	datasource.setUpdatedAt(datasourceRequest.getUpdatedAt());
                     return datasourceRepository.save(datasource);
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }
@@ -64,9 +62,9 @@ public class DataSourceController {
 
     @DeleteMapping("/datasources/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return datasourceRepository.findById(id)
+        return dataSourceRepository.findById(id)
                 .map(datasource -> {
-                	datasourceRepository.delete(datasource);
+                	dataSourceRepository.delete(datasource);
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }
@@ -86,7 +84,7 @@ public class DataSourceController {
     	String headerValue = "attachment; filename=dataSource_"+currentDate + ".xlsx";
     	response.setHeader(headerKey, headerValue);
     	
-    	List<Datasource> listDataSources = dataSourceService.listAll();
+    	List<DataSource> listDataSources = dataSourceService.listAll();
     	
     	DataSourceExcelExporter excelExport = new DataSourceExcelExporter(listDataSources);
     	

@@ -44,9 +44,9 @@ public class IndustryController {
 		return industryRepository.findAll(pageable);
     }
 
-    @GetMapping("/industries/{id}")
-    public Optional<Industry> getOne(@PathVariable Long id) {
-        return industryRepository.findById(id);
+    @GetMapping("/industries/{industryId}")
+    public Optional<Industry> getOne(@PathVariable Long industryId) {
+        return industryRepository.findById(industryId);
     }
 
 
@@ -55,26 +55,24 @@ public class IndustryController {
         return industryRepository.save(industry);
     }
 
-    @PutMapping("/industries/{id}")
-    public Industry update(@PathVariable Long id,
+    @PutMapping("/industries/{industryId}")
+    public Industry update(@PathVariable Long industryId,
                                    @Valid @RequestBody Industry industryRequest) {
-        return industryRepository.findById(id)
+        return industryRepository.findById(industryId)
                 .map(industry -> {
                 	industry.setName(industryRequest.getName());
-                	industry.setCreatedAt(industryRequest.getCreatedAt());
-                	industry.setUpdatedAt(industryRequest.getUpdatedAt());
                     return industryRepository.save(industry);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Industry not found with id " + industryId));
     }
 
 
-    @DeleteMapping("/industries/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return industryRepository.findById(id)
+    @DeleteMapping("/industries/{industryId}")
+    public ResponseEntity<?> delete(@PathVariable Long industryId) {
+        return industryRepository.findById(industryId)
                 .map(industry -> {
                 	industryRepository.delete(industry);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Industry not found with id " + industryId));
     }
     
     // export to Excel

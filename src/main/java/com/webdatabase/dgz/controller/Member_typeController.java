@@ -46,9 +46,9 @@ public class Member_typeController {
 		return member_typeRepository.findAll(pageable);
     }
 
-    @GetMapping("/member_types/{id}")
-    public Optional<Member_type> getOne(@PathVariable Long id) {
-        return member_typeRepository.findById(id);
+    @GetMapping("/member_types/{member_typeId}")
+    public Optional<Member_type> getOne(@PathVariable Long member_typeId) {
+        return member_typeRepository.findById(member_typeId);
     }
 
 
@@ -57,26 +57,24 @@ public class Member_typeController {
         return member_typeRepository.save(member_type);
     }
 
-    @PutMapping("/member_types/{id}")
-    public Member_type update(@PathVariable Long id,
+    @PutMapping("/member_types/{member_typeId}")
+    public Member_type update(@PathVariable Long member_typeId,
                                    @Valid @RequestBody Member_type member_typeRequest) {
-        return member_typeRepository.findById(id)
+        return member_typeRepository.findById(member_typeId)
                 .map(member_type -> {
-                	member_type.setCreatedAt(member_typeRequest.getCreatedAt());
                 	member_type.setName(member_typeRequest.getName());
-                	member_type.setUpdatedAt(member_typeRequest.getUpdatedAt());
                     return member_typeRepository.save(member_type);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Member type not found with id " + member_typeId));
     }
 
 
-    @DeleteMapping("/member_types/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return member_typeRepository.findById(id)
+    @DeleteMapping("/member_types/{member_typeId}")
+    public ResponseEntity<?> delete(@PathVariable Long member_typeId) {
+        return member_typeRepository.findById(member_typeId)
                 .map(member_type -> {
                 	member_typeRepository.delete(member_type);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Member type not found with id " + member_typeId));
     }
     
     //export to Excel

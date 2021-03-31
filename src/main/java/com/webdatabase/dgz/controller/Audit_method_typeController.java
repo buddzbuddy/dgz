@@ -62,20 +62,18 @@ public class Audit_method_typeController {
                 .map(audit_method_type -> {
                 	audit_method_type.setName(audit_method_typeRequest.getName());
                 	audit_method_type.setCode(audit_method_typeRequest.getCode());
-                	audit_method_type.setCreatedAt(audit_method_typeRequest.getCreatedAt());
-                	audit_method_type.setUpdatedAt(audit_method_typeRequest.getUpdatedAt());
                     return audit_method_typeRepository.save(audit_method_type);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Audit method type not found with id " + id));
     }
 
 
     @DeleteMapping("/audit_method_types/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return audit_method_typeRepository.findById(id)
-                .map(counterpart -> {
-                	audit_method_typeRepository.delete(counterpart);
+                .map(audit_method_type -> {
+                	audit_method_typeRepository.delete(audit_method_type);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Audit method type not found with id " + id));
     }
     
     //Export to Excel

@@ -44,7 +44,7 @@ public class License_typeController {
 		return license_typeRepository.findAll(pageable);
     }
 
-    @GetMapping("/license_types/{id}")
+    @GetMapping("/license_types/{license_typeId}")
     public Optional<License_type> getOne(@PathVariable Long id) {
         return license_typeRepository.findById(id);
     }
@@ -55,26 +55,24 @@ public class License_typeController {
         return license_typeRepository.save(license_type);
     }
 
-    @PutMapping("/license_types/{id}")
-    public License_type update(@PathVariable Long id,
+    @PutMapping("/license_types/{license_typeId}")
+    public License_type update(@PathVariable Long license_typeId,
                                    @Valid @RequestBody License_type license_typeRequest) {
-        return license_typeRepository.findById(id)
+        return license_typeRepository.findById(license_typeId)
                 .map(license_type -> {
                 	license_type.setName(license_typeRequest.getName());
-                	license_type.setCreatedAt(license_type.getCreatedAt());
-                	license_type.setUpdatedAt(license_type.getUpdatedAt());
                     return license_typeRepository.save(license_type);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("License type not found with id " + license_typeId));
     }
 
 
-    @DeleteMapping("/license_types/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return license_typeRepository.findById(id)
-                .map(industry -> {
-                	license_typeRepository.delete(industry);
+    @DeleteMapping("/license_types/{license_typeId}")
+    public ResponseEntity<?> delete(@PathVariable Long license_typeId) {
+        return license_typeRepository.findById(license_typeId)
+                .map(license_type -> {
+                	license_typeRepository.delete(license_type);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("License type not found with id " + license_typeId));
     }
     
     //export to Excel

@@ -58,7 +58,6 @@ public class Tpb_usiness_activity_date_by_inn_responseController {
 	public Tpb_usiness_activity_date_by_inn_response updateTpb_usiness_activity_date_by_inn_response(@PathVariable Long id, @Valid @RequestBody Tpb_usiness_activity_date_by_inn_response tpb_usiness_activity_date_by_inn_responseRequest) {
 		return tpb_usiness_activity_date_by_inn_responseRepository.findById(id)
 				.map(tpb_usiness_activity -> {
-					tpb_usiness_activity.setCreatedAt(tpb_usiness_activity_date_by_inn_responseRequest.getCreatedAt());
 					tpb_usiness_activity.setLegalAddress(tpb_usiness_activity_date_by_inn_responseRequest.getLegalAddress());
 					tpb_usiness_activity.setName(tpb_usiness_activity_date_by_inn_responseRequest.getName());
 					tpb_usiness_activity.setRayonCode(tpb_usiness_activity_date_by_inn_responseRequest.getRayonCode());
@@ -67,7 +66,6 @@ public class Tpb_usiness_activity_date_by_inn_responseController {
 					tpb_usiness_activity.setTaxTypeCode(tpb_usiness_activity_date_by_inn_responseRequest.getTaxTypeCode());
 					tpb_usiness_activity.setTaxTypeName(tpb_usiness_activity_date_by_inn_responseRequest.getTaxTypeName());
 					tpb_usiness_activity.setTin(tpb_usiness_activity_date_by_inn_responseRequest.getTin());
-					tpb_usiness_activity.setUpdatedAt(tpb_usiness_activity_date_by_inn_responseRequest.getUpdatedAt());
 					return tpb_usiness_activity_date_by_inn_responseRepository.save(tpb_usiness_activity);
 				}).orElseThrow(() -> new ResourceNotFoundException("Tpb usiness activity date by inn response not found with id "+id));
 	}

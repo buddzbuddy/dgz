@@ -56,6 +56,8 @@ public class RegistratorExcelExporter {
 			cell.setCellValue((Boolean) value);
 		} else if(value instanceof Date) {
 			cell.setCellValue((Date) value);
+		} else if(value instanceof Long ) {
+			cell.setCellValue((Long) value);
 		} else {
 			cell.setCellValue((String) value);
 		}

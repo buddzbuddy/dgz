@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -30,6 +29,8 @@ import com.webdatabase.dgz.excelUpload.Supplier_memberExcelUpload;
 import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
 import com.webdatabase.dgz.model.Supplier_member;
+import com.webdatabase.dgz.repository.Member_typeRepository;
+import com.webdatabase.dgz.repository.SupplierRepository;
 import com.webdatabase.dgz.repository.Supplier_memberRepository;
 import com.webdatabase.dgz.service.Supplier_memberService;
 
@@ -38,24 +39,38 @@ public class Supplier_memberController {
 	@Autowired
 	private Supplier_memberRepository supplier_memberRepository;
 	
+	@Autowired
+	private SupplierRepository supplierRepository;
+	
+	@Autowired
+	private Member_typeRepository member_typeRepository;
+	
 	@GetMapping("/supplier_members")
 	public Page<Supplier_member> getAllSupplier_member(Pageable pageable){
 		return supplier_memberRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/supplier_members{id}")
-	public Optional<Supplier_member> getOneSupplier_member(@PathVariable Long id){
-		return supplier_memberRepository.findById(id);
+	@GetMapping("/supplier/{supplierId}/supplier_members")
+	public List<Supplier_member> getSupplier_memberSupplier(@PathVariable Long supplierId){
+		return supplier_memberRepository.findBySupplierId(supplierId);
 	}
 	
-	@PostMapping("/supplier_members")
-	public Supplier_member createSupplier_member(@Valid @RequestBody Supplier_member supplier_member) {
-		return supplier_memberRepository.save(supplier_member);
+	@PostMapping("/supplier/{supplierId}/supplier_members")
+	public Supplier_member addSupplier_memberSupplier(@PathVariable Long supplierId, @Valid @RequestBody Supplier_member supplier_member) {
+		return supplierRepository.findById(supplierId)
+				.map(supplier -> {
+					supplier_member.setSupplier(supplier);
+					return supplier_memberRepository.save(supplier_member);
+				}).orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id "+ supplierId));
 	}
 	
-	@PutMapping("/supplier_members{id}")
-	public Supplier_member updateSupplier_member(@PathVariable Long id, @Valid @RequestBody Supplier_member supplier_memberRequest) {
-		return supplier_memberRepository.findById(id)
+	@PutMapping("/supplier/{supplierId}/supplier_members/{supplier_memberId}")
+	public Supplier_member updateSupplier_memberSupplier(@PathVariable Long supplier_memberId, @PathVariable Long supplierId, @Valid @RequestBody Supplier_member supplier_memberRequest) {
+		if (!supplierRepository.existsById(supplierId)) {
+			throw new ResourceNotFoundException("Supplier not found with id "+ supplierId);
+		}
+		
+		return supplier_memberRepository.findById(supplier_memberId)
 				.map(supplier_member -> {
 					supplier_member.setAddressHouse(supplier_memberRequest.getAddressHouse());
 					supplier_member.setAddressLocality(supplier_memberRequest.getAddressLocality());
@@ -82,23 +97,96 @@ public class Supplier_memberController {
 					supplier_member.setRegionId(supplier_memberRequest.getRegionId());
 					supplier_member.setStreetId(supplier_memberRequest.getStreetId());
 					supplier_member.setSubareaId(supplier_memberRequest.getSubareaId());
-					supplier_member.setMember_type(supplier_memberRequest.getMember_type());
 					supplier_member.setSurname(supplier_memberRequest.getSurname());
 					supplier_member.setUpdatedAt(supplier_memberRequest.getUpdatedAt());
 					supplier_member.setVoidStatus(supplier_memberRequest.getVoidStatus());
-					supplier_member.set_supplier(supplier_memberRequest.get_supplier());
 					return supplier_memberRepository.save(supplier_member);
-				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ id));
+				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ supplier_memberId));
 	}
 	
-	@DeleteMapping("/supplier_members{id}")
-	public ResponseEntity<?> deleteSuppler_member(@PathVariable Long id){
-		return supplier_memberRepository.findById(id)
+	@DeleteMapping("/supplier/{supplierId}/supplier_members/{supplier_memberId}")
+	public ResponseEntity<?> deleteSuppler_memberSupplier(@PathVariable Long supplier_memberId, @PathVariable Long supplierId){
+		if (!supplierRepository.existsById(supplierId)) {
+			throw new ResourceNotFoundException("Supplier not found with id "+ supplierId);
+		}
+		return supplier_memberRepository.findById(supplier_memberId)
 				.map(supplier_member -> {
 					supplier_memberRepository.delete(supplier_member);
 					return ResponseEntity.ok().build();
-				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ id));
+				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ supplier_memberId));
 	}
+	
+	
+	/*----------------------*/
+	
+	
+	@GetMapping("/member_types/{member_typeId}/supplier_members")
+	public List<Supplier_member> getSupplier_memberMember_type(@PathVariable Long member_typeId){
+		return supplier_memberRepository.findByMember_typeId(member_typeId);
+	}
+	
+	@PostMapping("/member_types/{member_typeId}/supplier_members")
+	public Supplier_member addSupplier_memberMember_type(@PathVariable Long member_typeId, @Valid @RequestBody Supplier_member supplier_member) {
+		return member_typeRepository.findById(member_typeId)
+				.map(member_type -> {
+					supplier_member.setMember_type(member_type);
+					return supplier_memberRepository.save(supplier_member);
+				}).orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id "+ member_typeId));
+	}
+	
+	@PutMapping("/member_types/{member_typeId}/supplier_members/{supplier_memberId}")
+	public Supplier_member updateSupplier_memberMember_type(@PathVariable Long supplier_memberId, @PathVariable Long member_typeId, @Valid @RequestBody Supplier_member supplier_memberRequest) {
+		if (!member_typeRepository.existsById(member_typeId)) {
+			throw new ResourceNotFoundException("Member type not found with id "+ member_typeId);
+		}
+		
+		return supplier_memberRepository.findById(supplier_memberId)
+				.map(supplier_member -> {
+					supplier_member.setAddressHouse(supplier_memberRequest.getAddressHouse());
+					supplier_member.setAddressLocality(supplier_memberRequest.getAddressLocality());
+					supplier_member.setAddressRegion(supplier_memberRequest.getAddressRegion());
+					supplier_member.setAddressStreet(supplier_memberRequest.getAddressStreet());
+					supplier_member.setAreaId(supplier_memberRequest.getAreaId());
+					supplier_member.setCreatedAt(supplier_memberRequest.getCreatedAt());
+					supplier_member.setDateOfBirth(supplier_memberRequest.getDateOfBirth());
+					supplier_member.setDistrictId(supplier_memberRequest.getDistrictId());
+					supplier_member.setExpiredDate(supplier_memberRequest.getExpiredDate());
+					supplier_member.setFamilyStatus(supplier_member.getFamilyStatus());
+					supplier_member.setGender(supplier_memberRequest.getGender());
+					supplier_member.setHouseId(supplier_memberRequest.getHouseId());
+					supplier_member.setInn(supplier_memberRequest.getInn());
+					supplier_member.setIssuedDate(supplier_memberRequest.getIssuedDate());
+					supplier_member.setMemberTypeId(supplier_memberRequest.getMemberTypeId());
+					supplier_member.setName(supplier_memberRequest.getName());
+					supplier_member.setNationality(supplier_memberRequest.getNationality());
+					supplier_member.setPassportAuthority(supplier_memberRequest.getPassportAuthority());
+					supplier_member.setPassportNumber(supplier_memberRequest.getPassportNumber());
+					supplier_member.setPassportSeries(supplier_memberRequest.getPassportSeries());
+					supplier_member.setPatronymic(supplier_memberRequest.getPatronymic());
+					supplier_member.setPin(supplier_memberRequest.getPin());
+					supplier_member.setRegionId(supplier_memberRequest.getRegionId());
+					supplier_member.setStreetId(supplier_memberRequest.getStreetId());
+					supplier_member.setSubareaId(supplier_memberRequest.getSubareaId());
+					supplier_member.setSurname(supplier_memberRequest.getSurname());
+					supplier_member.setUpdatedAt(supplier_memberRequest.getUpdatedAt());
+					supplier_member.setVoidStatus(supplier_memberRequest.getVoidStatus());
+					return supplier_memberRepository.save(supplier_member);
+				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ supplier_memberId));
+	}
+	
+	@DeleteMapping("/member_types/{member_typeId}/supplier_members/{supplier_memberId}")
+	public ResponseEntity<?> deleteSuppler_memberMember_type(@PathVariable Long supplier_memberId, @PathVariable Long member_typeId){
+		if (!member_typeRepository.existsById(member_typeId)) {
+			throw new ResourceNotFoundException("Member type not found with id "+ member_typeId);
+		}
+		return supplier_memberRepository.findById(supplier_memberId)
+				.map(supplier_member -> {
+					supplier_memberRepository.delete(supplier_member);
+					return ResponseEntity.ok().build();
+				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ supplier_memberId));
+	}
+	
+	
 	
 	//export to Excel
 	

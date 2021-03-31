@@ -57,12 +57,10 @@ public class Tp_data_by_inn_for_business_activity_responseController {
 	public Tp_data_by_inn_for_business_activity_response update(@PathVariable Long id, @Valid @RequestBody Tp_data_by_inn_for_business_activity_response tp_data_by_inn_for_business_activity_responseRequest) {
 		return tp_data_by_inn_for_business_activity_responseRepository.findById(id)
 				.map(tp_data_by_inn ->{
-					tp_data_by_inn.setCreatedAt(tp_data_by_inn_for_business_activity_responseRequest.getCreatedAt());
 					tp_data_by_inn.setFullAddress(tp_data_by_inn_for_business_activity_responseRequest.getFullAddress());
 					tp_data_by_inn.setFullName(tp_data_by_inn_for_business_activity_responseRequest.getFullName());
 					tp_data_by_inn.setInn(tp_data_by_inn_for_business_activity_responseRequest.getInn());
 					tp_data_by_inn.setRayonCode(tp_data_by_inn_for_business_activity_responseRequest.getRayonCode());
-					tp_data_by_inn.setUpdatedAt(tp_data_by_inn_for_business_activity_responseRequest.getUpdatedAt());
 					tp_data_by_inn.setZip(tp_data_by_inn_for_business_activity_responseRequest.getZip());
 					return tp_data_by_inn_for_business_activity_responseRepository.save(tp_data_by_inn);
 				}).orElseThrow(()-> new ResourceNotFoundException("Tp data by inn for business activity response not found with id "+id));
