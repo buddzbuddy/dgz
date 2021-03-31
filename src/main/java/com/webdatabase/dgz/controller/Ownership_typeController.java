@@ -43,9 +43,9 @@ public class Ownership_typeController {
 		return ownership_typeRepository.findAll(pageable);
 	}
 	
-	@GetMapping("ownership_types{id}")
-	public Optional<Ownership_type> getOneOwnership_type(@PathVariable Long id){
-		return ownership_typeRepository.findById(id);
+	@GetMapping("ownership_types/{ownership_typeId}")
+	public Optional<Ownership_type> getOneOwnership_type(@PathVariable Long ownership_typeId){
+		return ownership_typeRepository.findById(ownership_typeId);
 	}
 	
 	@PostMapping("ownership_types")
@@ -53,24 +53,22 @@ public class Ownership_typeController {
 		return ownership_typeRepository.save(ownership_type);
 	}
 	
-	@PutMapping("ownership_types{id}")
-	public Ownership_type updateOwnership_type(@PathVariable Long id, @Valid @RequestBody Ownership_type ownership_typeRequest) {
-		return ownership_typeRepository.findById(id)
+	@PutMapping("ownership_types/{ownership_typeId}")
+	public Ownership_type updateOwnership_type(@PathVariable Long ownership_typeId, @Valid @RequestBody Ownership_type ownership_typeRequest) {
+		return ownership_typeRepository.findById(ownership_typeId)
 				.map(ownership_type -> {
-					ownership_type.setCreatedAt(ownership_typeRequest.getCreatedAt());
 					ownership_type.setName(ownership_typeRequest.getName());
-					ownership_type.setUpdatedAt(ownership_typeRequest.getUpdatedAt());
 					return ownership_typeRepository.save(ownership_type);
-				}).orElseThrow(()-> new ResourceNotFoundException("Ownership type not found with id "+id));
+				}).orElseThrow(()-> new ResourceNotFoundException("Ownership type not found with id "+ownership_typeId));
 	}
 	
-	@DeleteMapping("ownership_types{id}")
-	public ResponseEntity<?> deleteOwnership_type(@PathVariable Long id){
-		return ownership_typeRepository.findById(id)
+	@DeleteMapping("ownership_types/{ownership_typeId}")
+	public ResponseEntity<?> deleteOwnership_type(@PathVariable Long ownership_typeId){
+		return ownership_typeRepository.findById(ownership_typeId)
 				.map(ownership_type -> {
 					ownership_typeRepository.delete(ownership_type);
 					return ResponseEntity.ok().build();
-				}).orElseThrow(() -> new ResourceNotFoundException("Ownership type not found with id "+id));
+				}).orElseThrow(() -> new ResourceNotFoundException("Ownership type not found with id "+ownership_typeId));
 	}
 	
 	@Autowired

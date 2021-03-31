@@ -58,8 +58,6 @@ public class CurrencyController {
 		return currencyRepository.findById(id)
 				.map(currency -> {
 					currency.setName(currencyRequest.getName());
-					currency.setCreatedAt(currencyRequest.getCreatedAt());
-					currency.setUpdatedAt(currencyRequest.getUpdatedAt());
 					return currencyRepository.save(currency);
 				}).orElseThrow(()-> new ResourceNotFoundException("Currency not found with id "+ id));
 	}

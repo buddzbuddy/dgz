@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -30,6 +29,8 @@ import com.webdatabase.dgz.excelUpload.SupplierExcelUpload;
 import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
 import com.webdatabase.dgz.model.Supplier;
+import com.webdatabase.dgz.repository.IndustryRepository;
+import com.webdatabase.dgz.repository.Ownership_typeRepository;
 import com.webdatabase.dgz.repository.SupplierRepository;
 import com.webdatabase.dgz.service.SupplierService;
 
@@ -38,29 +39,43 @@ public class SupplierController {
 	@Autowired
 	private SupplierRepository supplierRepository;
 	
+	@Autowired
+	private Ownership_typeRepository ownership_typeRepository;
+	
+	@Autowired
+	private IndustryRepository industryRepository;
+	
 	@GetMapping("/suppliers")
 	public Page<Supplier> getAllSupplier(Pageable pageable){
 		return supplierRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/suppliers{id}")
-	public Optional<Supplier> getOneSupplier(@PathVariable Long id){
-		return supplierRepository.findById(id);
+	@GetMapping("/ownership_types/{ownership_typeId}/suppliers}")
+	public List<Supplier> getSuppliersOwnership_typeId(@PathVariable Long ownership_typeId){
+		return supplierRepository.findByOwnership_typeId(ownership_typeId);
 	}
 	
-	@PostMapping("/suppliers")
-	public Supplier createSupplier(@Valid @RequestBody Supplier supplier) {
-		return supplierRepository.save(supplier);
+	@PostMapping("/ownership_types/{ownership_typeId}/suppliers}")
+	public Supplier addSupplierOnwership_type(@PathVariable Long ownership_typeId, @Valid @RequestBody Supplier supplier) {
+		return ownership_typeRepository.findById(ownership_typeId)
+				.map(ownership_type -> {
+					supplier.setOwnership_type(ownership_type);
+					return supplierRepository.save(supplier);
+				}).orElseThrow(() -> new ResourceNotFoundException("Ownership type not found with id "+ ownership_typeId));
 	}
 	
-	@PutMapping("/suppliers{id}")
-	public Supplier updateSupplier(@PathVariable Long id, @Valid @RequestBody Supplier supplierRequest) {
-		return supplierRepository.findById(id)
+	
+	@PutMapping("/ownership_types/{ownership_typeId}/suppliers/{supplierId}")
+	public Supplier updateSupplierOwnership_type(@PathVariable Long ownership_typeId, @PathVariable Long supplierId, @Valid @RequestBody Supplier supplierRequest) {
+		if (!ownership_typeRepository.existsById(ownership_typeId)) {
+			throw new ResourceNotFoundException("Ownership type not found with id "+ ownership_typeId);
+		}
+		
+		return supplierRepository.findById(supplierId)
 				.map(supplier -> {
 					supplier.setBankAccount(supplierRequest.getBankAccount());
 					supplier.setBankName(supplierRequest.getBankName());
 					supplier.setBic(supplierRequest.getBic());
-					supplier.setCreatedAt(supplierRequest.getCreatedAt());
 					supplier.setFactAddress(supplierRequest.getFactAddress());
 					supplier.setInn(supplierRequest.getInn());
 					supplier.setIsResident(supplierRequest.getIsResident());
@@ -68,23 +83,80 @@ public class SupplierController {
 					supplier.setName(supplierRequest.getName());
 					supplier.setRayonCode(supplierRequest.getRayonCode());
 					supplier.setTelephone(supplierRequest.getTelephone());
-					supplier.setUpdatedAt(supplierRequest.getUpdatedAt());
 					supplier.setZip(supplierRequest.getZip());
 					supplier.setIsBlack(supplierRequest.getIsBlack());
-					supplier.set_Ownership_type(supplierRequest.get_Ownership_type());
-					supplier.setIndustry(supplierRequest.getIndustry());
 					return supplierRepository.save(supplier);
-				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+id));
+				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+supplierId));
 	}
 	
-	@DeleteMapping("/suppliers{id}")
-	public ResponseEntity<?> deleteSupplier(@PathVariable Long id){
-		return supplierRepository.findById(id)
+	@DeleteMapping("/ownership_types/{ownership_typeId}/suppliers/{supplierId}")
+	public ResponseEntity<?> deleteSupplierOwnership_type(@PathVariable Long supplierId, @PathVariable Long ownership_typeId){
+		if (!ownership_typeRepository.existsById(ownership_typeId)) {
+			throw new ResourceNotFoundException("Ownership type not found with id "+ ownership_typeId);
+		}
+		
+		return supplierRepository.findById(supplierId)
 				.map(supplier -> {
 					supplierRepository.delete(supplier);
 					return ResponseEntity.ok().build();
-				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+id));
+				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+supplierId));
 	}
+	
+	/*----------------------*/
+	
+	
+	@GetMapping("/industries/{industryId}/suppliers}")
+	public List<Supplier> getSuppliersIndustryId(@PathVariable Long industryId){
+		return supplierRepository.findByIndustryId(industryId);
+	}
+	
+	@PostMapping("/industries/{industryId}/suppliers}")
+	public Supplier addSupplierIndustry(@PathVariable Long industryId, @Valid @RequestBody Supplier supplier) {
+		return industryRepository.findById(industryId)
+				.map(industry -> {
+					supplier.setIndustry(industry);
+					return supplierRepository.save(supplier);
+				}).orElseThrow(() -> new ResourceNotFoundException("Industry not found with id "+ industryId));
+	}
+	
+	
+	@PutMapping("/industries/{industryId}/suppliers/{supplierId}")
+	public Supplier updateSupplierIndustry(@PathVariable Long industryId, @PathVariable Long supplierId, @Valid @RequestBody Supplier supplierRequest) {
+		if (!industryRepository.existsById(industryId)) {
+			throw new ResourceNotFoundException("Industry not found with id "+ industryId);
+		}
+		
+		return supplierRepository.findById(supplierId)
+				.map(supplier -> {
+					supplier.setBankAccount(supplierRequest.getBankAccount());
+					supplier.setBankName(supplierRequest.getBankName());
+					supplier.setBic(supplierRequest.getBic());
+					supplier.setFactAddress(supplierRequest.getFactAddress());
+					supplier.setInn(supplierRequest.getInn());
+					supplier.setIsResident(supplierRequest.getIsResident());
+					supplier.setLegalAddress(supplierRequest.getLegalAddress());
+					supplier.setName(supplierRequest.getName());
+					supplier.setRayonCode(supplierRequest.getRayonCode());
+					supplier.setTelephone(supplierRequest.getTelephone());
+					supplier.setZip(supplierRequest.getZip());
+					supplier.setIsBlack(supplierRequest.getIsBlack());
+					return supplierRepository.save(supplier);
+				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+supplierId));
+	}
+	
+	@DeleteMapping("/industries/{industryId}/suppliers/{supplierId}")
+	public ResponseEntity<?> deleteSupplierIndustry(@PathVariable Long supplierId, @PathVariable Long industryId){
+		if (!industryRepository.existsById(industryId)) {
+			throw new ResourceNotFoundException("Industry not found with id "+ industryId);
+		}
+		
+		return supplierRepository.findById(supplierId)
+				.map(supplier -> {
+					supplierRepository.delete(supplier);
+					return ResponseEntity.ok().build();
+				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+supplierId));
+	}
+	
 	
 	//export to Excel
 	

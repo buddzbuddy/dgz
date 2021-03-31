@@ -58,9 +58,7 @@ public class RegistratorController {
 				.map(registrator ->{
 					registrator.setContactData(registratorRequest.getContactData());
 					registrator.setCounterpart(registratorRequest.getCounterpart());
-					registrator.setCreatedAt(registratorRequest.getCreatedAt());
 					registrator.setName(registratorRequest.getName());
-					registrator.setUpdatedAt(registratorRequest.getUpdatedAt());
 					return registratorRepository.save(registrator);
 				}).orElseThrow(()-> new ResourceNotFoundException("Registrator not found with id "+id));
 	}

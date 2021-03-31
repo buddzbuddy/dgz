@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,6 +30,7 @@ import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
 import com.webdatabase.dgz.model.Pension_info;
 import com.webdatabase.dgz.repository.Pension_infoRepository;
+import com.webdatabase.dgz.repository.Supplier_memberRepository;
 import com.webdatabase.dgz.service.Pension_infoService;
 
 @RestController
@@ -39,29 +39,39 @@ public class Pension_infoController {
 	@Autowired
 	private Pension_infoRepository pension_infoRepository;
 	
+	@Autowired 
+	private Supplier_memberRepository supplier_memberRepository;
+	
 	@GetMapping("/pension_infos")
     public Page<Pension_info> getAll(Pageable pageable) {
         return pension_infoRepository.findAll(pageable);
     }
 
-    @GetMapping("/pension_infos/{id}")
-    public Optional<Pension_info> getOne(@PathVariable Long id) {
-        return pension_infoRepository.findById(id);
+    @GetMapping("/supplier_members/{supplier_memberId}/pension_infos")
+    public List<Pension_info> getPension_infosBySupplier_memberId(@PathVariable Long supplier_memberId) {
+        return pension_infoRepository.findBySupplier_memberId(supplier_memberId);
     }
 
 
-    @PostMapping("/pension_infos")
-    public Pension_info create(@Valid @RequestBody Pension_info pension_info) {
-        return pension_infoRepository.save(pension_info);
+    @PostMapping("/supplier_members/{supplier_memberId}/pension_infos")
+    public Pension_info addPension_infos(@PathVariable Long supplier_memberId, @Valid @RequestBody Pension_info pension_info) {
+        return supplier_memberRepository.findById(supplier_memberId)
+        		.map(supplier_member -> {
+        			pension_info.setSupplier_member(supplier_member);
+        			return pension_infoRepository.save(pension_info);
+        		}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id" + supplier_memberId));
     }
 
-    @PutMapping("/pension_infos/{id}")
-    public Pension_info update(@PathVariable Long id,
+    @PutMapping("/supplier_members/{supplier_memberId}/pension_infos/{pension_infoId}")
+    public Pension_info update(@PathVariable Long supplier_memberId, @PathVariable Long pension_infoId,
                                    @Valid @RequestBody Pension_info pension_infoRequest) {
-        return pension_infoRepository.findById(id)
+        if(!supplier_memberRepository.existsById(supplier_memberId)) {
+        	throw new ResourceNotFoundException("Supplier member not found with id" + supplier_memberId);
+        }
+    	
+    	return pension_infoRepository.findById(pension_infoId)
                 .map(pension_info -> {
                 	pension_info.setCategoryPension(pension_infoRequest.getCategoryPension());
-                	pension_info.setCreatedAt(pension_infoRequest.getCreatedAt());
                 	pension_info.setDateFromInitial(pension_infoRequest.getDateFromInitial());
                 	pension_info.setKindOfPension(pension_infoRequest.getKindOfPension());
                 	pension_info.setNumDossier(pension_infoRequest.getNumDossier());
@@ -69,20 +79,22 @@ public class Pension_infoController {
                 	pension_info.setPinRecipient(pension_infoRequest.getPinRecipient());
                 	pension_info.setRusf(pension_infoRequest.getRusf());
                 	pension_info.setSum(pension_infoRequest.getSum());
-                	pension_info.setSupplier_member(pension_infoRequest.getSupplier_member());;
-                	pension_info.setUpdatedAt(pension_infoRequest.getUpdatedAt());
                     return pension_infoRepository.save(pension_info);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Pension info not found with id " + pension_infoId));
     }
 
 
-    @DeleteMapping("/pension_infos/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return pension_infoRepository.findById(id)
+    @DeleteMapping("/supplier_members/{supplier_memberId}/pension_infos/{pension_infoId}")
+    public ResponseEntity<?> deletePension_info(@PathVariable Long supplier_memberId, @PathVariable Long pension_infoId) {
+        if (!supplier_memberRepository.existsById(supplier_memberId)) {
+			throw new ResourceNotFoundException("Supplier member not found with id" + supplier_memberId);
+		}
+    	
+    	return pension_infoRepository.findById(pension_infoId)
                 .map(pension_info -> {
                 	pension_infoRepository.delete(pension_info);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Pension info not found with id " + pension_infoId));
     }
     
     //export to Excel

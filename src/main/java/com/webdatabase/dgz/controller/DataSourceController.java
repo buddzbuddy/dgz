@@ -55,8 +55,6 @@ public class DataSourceController {
                 .map(datasource -> {
                 	datasource.setName(datasourceRequest.getName());
                 	datasource.setDescription(datasourceRequest.getDescription());
-                	datasource.setCreatedAt(datasourceRequest.getCreatedAt());
-                	datasource.setUpdatedAt(datasourceRequest.getUpdatedAt());
                     return dataSourceRepository.save(datasource);
                 }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
     }

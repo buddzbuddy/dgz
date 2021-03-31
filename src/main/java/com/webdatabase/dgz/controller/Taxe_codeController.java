@@ -58,10 +58,8 @@ public class Taxe_codeController {
 		return taxe_codeRepository.findById(id)
 				.map(taxe_code ->{
 					taxe_code.setCode(taxe_codeRequest.getCode());
-					taxe_code.setCreatedAt(taxe_codeRequest.getCreatedAt());
 					taxe_code.setDetailName(taxe_codeRequest.getDetailName());
 					taxe_code.setName(taxe_codeRequest.getName());
-					taxe_code.setUpdatedAt(taxe_codeRequest.getUpdatedAt());
 					return taxe_codeRepository.save(taxe_code);
 				}).orElseThrow(()-> new ResourceNotFoundException("Taxe code not found with id "+id));
 	}

@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,6 +30,8 @@ import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
 import com.webdatabase.dgz.model.License;
 import com.webdatabase.dgz.repository.LicenseRepository;
+import com.webdatabase.dgz.repository.License_typeRepository;
+import com.webdatabase.dgz.repository.SupplierRepository;
 import com.webdatabase.dgz.service.LicenseService;
 
 @RestController
@@ -39,49 +40,120 @@ public class LicenseController {
 	@Autowired
 	private LicenseRepository licenseRepository;
 	
+	@Autowired
+	private SupplierRepository supplierRepository;
+	
+	@Autowired
+	private License_typeRepository license_typeRepository;
+	
 	@GetMapping("/licenses")
     public Page<License> getAll(Pageable pageable) {
         return licenseRepository.findAll(pageable);
     }
 
-    @GetMapping("/licenses/{id}")
-    public Optional<License> getOne(@PathVariable Long id) {
-        return licenseRepository.findById(id);
+    @GetMapping("/supplier/{supplierId}/licenses")
+    public List<License> getLicensesBySupplierId(@PathVariable Long supplierId) {
+        return licenseRepository.findBySupplierId(supplierId);
     }
 
 
-    @PostMapping("/licenses")
-    public License create(@Valid @RequestBody License license) {
-        return licenseRepository.save(license);
+    @PostMapping("/supplier/{supplierId}/licenses")
+    public License addLicenseSupplier(@PathVariable Long supplierId, @Valid @RequestBody License license) {
+        return supplierRepository.findById(supplierId)
+        		.map(supplier -> {
+        			license.setSupplier(supplier);
+        			return licenseRepository.save(license);
+        		}).orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id" + supplierId));
     }
 
-    @PutMapping("/licenses/{id}")
-    public License update(@PathVariable Long id,
+    @PutMapping("/supplier/{supplierId}/licenses/{licenseId}")
+    public License updateLicenseSupplier(@PathVariable Long supplierId, @PathVariable Long licenseId,
                                    @Valid @RequestBody License licenseRequest) {
-        return licenseRepository.findById(id)
+    	if (!supplierRepository.existsById(supplierId)) {
+			throw new ResourceNotFoundException("Supplier not found with id" + supplierId);
+		}
+    	
+        return licenseRepository.findById(licenseId)
                 .map(license -> {
                 	license.setAdditionalInfo(licenseRequest.getAdditionalInfo());
                 	license.setExpiryDate(licenseRequest.getExpiryDate());
                 	license.setIssueDate(licenseRequest.getIssueDate());
                 	license.setIssuer(licenseRequest.getIssuer());
-                	license.setLicense_type(licenseRequest.getLicense_type());
                 	license.setNo(licenseRequest.getNo());
                 	license.setStatus(licenseRequest.getStatus());
-                	license.setSupplier(licenseRequest.getSupplier());
-                	license.setCreatedAt(licenseRequest.getCreatedAt());
-                	license.setUpdatedAt(licenseRequest.getUpdatedAt());
                     return licenseRepository.save(license);
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("License not found with id " + licenseId));
     }
 
 
-    @DeleteMapping("/licenses/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return licenseRepository.findById(id)
-                .map(counterpart -> {
-                	licenseRepository.delete(counterpart);
+    @DeleteMapping("/supplier/{supplierId}/licenses/{licenseId}")
+    public ResponseEntity<?> deleteLicenseSupplier(@PathVariable Long supplierId, @PathVariable Long licenseId) {
+        if (!supplierRepository.existsById(supplierId)) {
+			throw new ResourceNotFoundException("Supplier not found with id" + supplierId);
+
+		}
+    	
+    	return licenseRepository.findById(licenseId)
+                .map(license ->{
+                	licenseRepository.delete(license);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Entity not found with id " + id));
+                }).orElseThrow(() -> new ResourceNotFoundException("License not found with id " + licenseId));
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    @GetMapping("/license_types/{license_typeId}/licenses")
+    public List<License> getLicensesByLicense_typeId(@PathVariable Long license_typeId) {
+        return licenseRepository.findByLicense_typeId(license_typeId);
+    }
+
+
+    @PostMapping("/license_types/{license_typeId}/licenses")
+    public License addLicenseLicense_type(@PathVariable Long license_typeId, @Valid @RequestBody License license) {
+        return license_typeRepository.findById(license_typeId)
+        		.map(license_type -> {
+        			license.setLicense_type(license_type);
+        			return licenseRepository.save(license);
+        		}).orElseThrow(() -> new ResourceNotFoundException("License type not found with id" + license_typeId));
+    }
+
+    @PutMapping("/license_types/{license_typeId}/licenses/{licenseId}")
+    public License updateLicenseLicense_type(@PathVariable Long license_typeId, @PathVariable Long licenseId,
+                                   @Valid @RequestBody License licenseRequest) {
+    	if (!license_typeRepository.existsById(license_typeId)) {
+			throw new ResourceNotFoundException("License type not found with id" + license_typeId);
+		}
+    	
+        return licenseRepository.findById(licenseId)
+                .map(license -> {
+                	license.setAdditionalInfo(licenseRequest.getAdditionalInfo());
+                	license.setExpiryDate(licenseRequest.getExpiryDate());
+                	license.setIssueDate(licenseRequest.getIssueDate());
+                	license.setIssuer(licenseRequest.getIssuer());
+                	license.setNo(licenseRequest.getNo());
+                	license.setStatus(licenseRequest.getStatus());
+                    return licenseRepository.save(license);
+                }).orElseThrow(() -> new ResourceNotFoundException("License not found with id " + licenseId));
+    }
+
+
+    @DeleteMapping("/supplier/{supplierId}/licenses/{licenseId}")
+    public ResponseEntity<?> deleteLicenseLicense_type(@PathVariable Long license_typeId, @PathVariable Long licenseId) {
+        if (!license_typeRepository.existsById(license_typeId)) {
+			throw new ResourceNotFoundException("License type not found with id" + license_typeId);
+
+		}
+    	
+    	return licenseRepository.findById(licenseId)
+                .map(license ->{
+                	licenseRepository.delete(license);
+                    return ResponseEntity.ok().build();
+                }).orElseThrow(() -> new ResourceNotFoundException("License not found with id " + licenseId));
     }
     
     //export to Excel

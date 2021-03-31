@@ -103,7 +103,7 @@ public class Supplier_memberExcelExporter {
 			int columnCount = 0;
 			
 			createCell(row, columnCount++, supplier_member.getId(), style);
-			createCell(row, columnCount++, supplier_member.get_supplier(), style);
+			createCell(row, columnCount++, supplier_member.getSupplier(), style);
 			createCell(row, columnCount++, supplier_member.getAreaId(), style);
 			createCell(row, columnCount++, supplier_member.getRegionId(), style);
 			createCell(row, columnCount++, supplier_member.getAddressRegion(), style);

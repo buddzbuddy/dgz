@@ -64,7 +64,7 @@ public class Supplier_memberExcelUpload {
 	        		supplier_member.setId((long) currentCell.getNumericCellValue());
 	        		break;
 	        	case 1:
-	        		supplier_member.set_supplier((Supplier) currentCell.getRichStringCellValue());
+	        		supplier_member.setSupplier((Supplier) currentCell.getRichStringCellValue());
 	        		break;
 	        	case 2:
 	        		supplier_member.setAreaId((int) currentCell.getNumericCellValue());

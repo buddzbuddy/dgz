@@ -3,14 +3,20 @@ package com.webdatabase.dgz.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webdatabase.dgz.model.Supplier;
 
 
@@ -31,9 +37,19 @@ public class Supplier_member extends AuditModel {
 	
 	private Long id;
 	
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_type_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
 	private Member_type member_type;
 	
-	private Supplier _supplier;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "supplier_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+	private Supplier supplier;
 	
 	private String pin;
 	
@@ -104,12 +120,12 @@ public class Supplier_member extends AuditModel {
 	
 	
 
-	public Supplier get_supplier() {
-		return _supplier;
+	public Supplier getSupplier() {
+		return supplier;
 	}
 
-	public void set_supplier(Supplier _supplier) {
-		this._supplier = _supplier;
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	public String getPin() {

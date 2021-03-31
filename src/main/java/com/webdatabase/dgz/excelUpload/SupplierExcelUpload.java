@@ -104,7 +104,7 @@ public class SupplierExcelUpload {
 	        		supplier.setZip(currentCell.getStringCellValue());
 	        		break;
 	        	case 14:
-	        		supplier.set_Ownership_type((Ownership_type) currentCell.getRichStringCellValue());
+	        		supplier.setOwnership_type((Ownership_type) currentCell.getRichStringCellValue());
 	        		break;
 	        	case 15:
 	        		supplier.setCreatedAt(currentCell.getDateCellValue());

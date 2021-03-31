@@ -59,8 +59,6 @@ public class CounterpartTypeController {
 		return counterpartTypeRepository.findById(id)
 				.map(counterpart_type -> {
 					counterpart_type.setName(counterpart_typeRequest.getName());
-					counterpart_type.setCreatedAt(counterpart_typeRequest.getCreatedAt());
-					counterpart_type.setUpdatedAt(counterpart_typeRequest.getUpdatedAt());
 					return counterpartTypeRepository.save(counterpart_type);
 				}).orElseThrow(() -> new ResourceNotFoundException("Counterpart type not found with id "+ id));
 	}

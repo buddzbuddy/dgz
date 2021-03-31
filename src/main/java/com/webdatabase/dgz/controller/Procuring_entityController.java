@@ -59,10 +59,8 @@ public class Procuring_entityController {
 				.map(procuring_entity -> {
 					procuring_entity.setAddress(procuring_entityRequest.getAddress());
 					procuring_entity.setContactData(procuring_entityRequest.getContactData());
-					procuring_entity.setCreatedAt(procuring_entityRequest.getCreatedAt());
 					procuring_entity.setInn(procuring_entityRequest.getInn());
 					procuring_entity.setName(procuring_entityRequest.getName());
-					procuring_entity.setUpdatedAt(procuring_entityRequest.getUpdatedAt());
 					return procuring_entityRepository.save(procuring_entity);
 				}).orElseThrow(()-> new ResourceNotFoundException("Procuring entity not found with id "+id));
 	}

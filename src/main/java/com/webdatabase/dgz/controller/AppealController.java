@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -30,8 +29,6 @@ import com.webdatabase.dgz.excelUpload.AppealExcelUpload;
 import com.webdatabase.dgz.exception.ResourceNotFoundException;
 import com.webdatabase.dgz.message.ResponseMessage;
 import com.webdatabase.dgz.model.Appeal;
-import com.webdatabase.dgz.model.Procuring_entity;
-import com.webdatabase.dgz.model.Supplier;
 import com.webdatabase.dgz.repository.AppealRepository;
 import com.webdatabase.dgz.repository.Procuring_entityRepository;
 import com.webdatabase.dgz.repository.SupplierRepository;
@@ -55,8 +52,8 @@ public class AppealController {
     }
 
 	@GetMapping("/supliers/{supplierId}/appeals")
-	public List<Supplier> getAppealsBySuppliersId(@PathVariable Long suplierId) {
-		return appealRepository.findBySuppliersId(suplierId);
+	public List<Appeal> getAppealsBySuppliersId(@PathVariable Long suplierId) {
+		return appealRepository.findBySupplierId(suplierId);
 	}
 	
 	@PostMapping("/suppliers/{supplierId}/appeals")
@@ -76,10 +73,6 @@ public class AppealController {
 		return appealRepository.findById(appealId)
 				.map(appeal -> {
 					appeal.setDescription(appealRequest.getDescription());
-					appeal.setSupplier(appealRequest.getSupplier());
-					appeal.setProcuring_entity(appealRequest.getProcuring_entity());
-					appeal.setCreatedAt(appealRequest.getCreatedAt());
-					appeal.setUpdatedAt(appealRequest.getUpdatedAt());
 					return appealRepository.save(appeal);
 				}).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
 	}
@@ -96,9 +89,13 @@ public class AppealController {
                 }).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
     }
 	
+	
+	/*----------------------*/
+	
+	
 	@GetMapping("/procuring_entities/{procuring_entityId}/appeals")
-	public List<Procuring_entity> getAppealsByProcuring_entitiesId(@PathVariable Long procuring_entityId){
-		return appealRepository.fingByProcuring_entitiesId(procuring_entityId);
+	public List<Appeal> getAppealsByProcuring_entitiesId(@PathVariable Long procuring_entityId){
+		return appealRepository.fingByProcuring_entityId(procuring_entityId);
 	}
 
     @PostMapping("/procuring_entities/{procuring_entityId}/appeals")
@@ -118,10 +115,6 @@ public class AppealController {
 		return appealRepository.findById(appealId)
 				.map(appeal -> {
 					appeal.setDescription(appealRequest.getDescription());
-					appeal.setSupplier(appealRequest.getSupplier());
-					appeal.setProcuring_entity(appealRequest.getProcuring_entity());
-					appeal.setCreatedAt(appealRequest.getCreatedAt());
-					appeal.setUpdatedAt(appealRequest.getUpdatedAt());
 					return appealRepository.save(appeal);
 				}).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
 	}

@@ -58,7 +58,6 @@ public class Msec_detailController {
 	public Msec_detail updateMsec_detail(@PathVariable Long id, @Valid @RequestBody Msec_detail msec_detailRequest) {
 		return msec_detailRepository.findById(id)
 				.map(msec_detail ->{
-					msec_detail.setCreatedAt(msec_detailRequest.getCreatedAt());
 					msec_detail.setDisabilityGroup(msec_detailRequest.getDisabilityGroup());
 					msec_detail.setExaminationDate(msec_detailRequest.getExaminationDate());
 					msec_detail.setExaminationtype(msec_detailRequest.getExaminationtype());
@@ -67,7 +66,6 @@ public class Msec_detailController {
 					msec_detail.setReExamination(msec_detailRequest.getReExamination());
 					msec_detail.setSupplier_member(msec_detailRequest.getSupplier_member());
 					msec_detail.setToDate(msec_detailRequest.getToDate());
-					msec_detail.setUpdatedAt(msec_detailRequest.getUpdatedAt());
 					return msec_detailRepository.save(msec_detail);
 				}).orElseThrow(()-> new ResourceNotFoundException("Msec detail not found with id "+ id));
 	}
