@@ -133,7 +133,7 @@ public class Supplier_memberExcelUpload {
 	        		supplier_member.setPin(currentCell.getStringCellValue());
 	        		break;
 	        	case 24:
-	        		supplier_member.setMemberTypeId((int) currentCell.getNumericCellValue());
+	        		supplier_member.set_MemberTypeId((int) currentCell.getNumericCellValue());
 	        		break;
 	        	case 25:
 	        		supplier_member.setMember_type((Member_type) currentCell.getRichStringCellValue());

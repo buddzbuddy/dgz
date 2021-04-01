@@ -51,13 +51,13 @@ public class LicenseController {
         return licenseRepository.findAll(pageable);
     }
 
-    @GetMapping("/supplier/{supplierId}/licenses")
+    @GetMapping("/suppliers/{supplierId}/licenses")
     public List<License> getLicensesBySupplierId(@PathVariable Long supplierId) {
         return licenseRepository.findBySupplierId(supplierId);
     }
 
 
-    @PostMapping("/supplier/{supplierId}/licenses")
+    @PostMapping("/suppliers/{supplierId}/licenses")
     public License addLicenseSupplier(@PathVariable Long supplierId, @Valid @RequestBody License license) {
         return supplierRepository.findById(supplierId)
         		.map(supplier -> {
@@ -66,7 +66,7 @@ public class LicenseController {
         		}).orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id" + supplierId));
     }
 
-    @PutMapping("/supplier/{supplierId}/licenses/{licenseId}")
+    @PutMapping("/suppliers/{supplierId}/licenses/{licenseId}")
     public License updateLicenseSupplier(@PathVariable Long supplierId, @PathVariable Long licenseId,
                                    @Valid @RequestBody License licenseRequest) {
     	if (!supplierRepository.existsById(supplierId)) {
@@ -86,7 +86,7 @@ public class LicenseController {
     }
 
 
-    @DeleteMapping("/supplier/{supplierId}/licenses/{licenseId}")
+    @DeleteMapping("/suppliers/{supplierId}/licenses/{licenseId}")
     public ResponseEntity<?> deleteLicenseSupplier(@PathVariable Long supplierId, @PathVariable Long licenseId) {
         if (!supplierRepository.existsById(supplierId)) {
 			throw new ResourceNotFoundException("Supplier not found with id" + supplierId);

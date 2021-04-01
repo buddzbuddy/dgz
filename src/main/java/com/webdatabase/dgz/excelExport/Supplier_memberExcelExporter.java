@@ -126,7 +126,7 @@ public class Supplier_memberExcelExporter {
 			createCell(row, columnCount++, supplier_member.getPassportNumber(), style);
 			createCell(row, columnCount++, supplier_member.getPassportSeries(), style);
 			createCell(row, columnCount++, supplier_member.getPin(), style);
-			createCell(row, columnCount++, supplier_member.getMemberTypeId(), style);
+			createCell(row, columnCount++, supplier_member.get_MemberTypeId(), style);
 			createCell(row, columnCount++, supplier_member.getMember_type(), style);
 			createCell(row, columnCount++, supplier_member.getIssuedDate(), style);
 			createCell(row, columnCount++, supplier_member.getExpiredDate(), style);

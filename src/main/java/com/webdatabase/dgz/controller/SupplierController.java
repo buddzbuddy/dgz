@@ -73,7 +73,7 @@ public class SupplierController {
 		
 		return supplierRepository.findById(supplierId)
 				.map(supplier -> {
-					supplier.setBankAccount(supplierRequest.getBankAccount());
+					supplier.setBankAccount(supplierRequest.getBankAccount()); 
 					supplier.setBankName(supplierRequest.getBankName());
 					supplier.setBic(supplierRequest.getBic());
 					supplier.setFactAddress(supplierRequest.getFactAddress());

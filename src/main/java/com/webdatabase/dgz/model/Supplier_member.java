@@ -108,7 +108,7 @@ public class Supplier_member extends AuditModel {
 	private int houseId;
 	
 	@Nullable
-	private int memberTypeId;
+	private int _memberTypeId;
 	
 	public Long getId() {
 		return id;
@@ -328,12 +328,12 @@ public class Supplier_member extends AuditModel {
 		this.houseId = houseId;
 	}
 
-	public int getMemberTypeId() {
-		return memberTypeId;
+	public int get_MemberTypeId() {
+		return _memberTypeId;
 	}
 
-	public void setMemberTypeId(int memberTypeId) {
-		this.memberTypeId = memberTypeId;
+	public void set_MemberTypeId(int _memberTypeId) {
+		this._memberTypeId = _memberTypeId;
 	}
 
 	public Member_type getMember_type() {
