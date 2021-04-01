@@ -46,11 +46,11 @@ public class AppealController {
 	@Autowired
 	private Procuring_entityRepository procuring_entityRepository;
 	
-	@GetMapping("/appeals")
+	/*@GetMapping("/appeals")
     public Page<Appeal> getAll(Pageable pageable) {
         return appealRepository.findAll(pageable);
     }
-
+	 */
 	@GetMapping("/supliers/{supplierId}/appeals")
 	public List<Appeal> getAppealsBySuppliersId(@PathVariable Long suplierId) {
 		return appealRepository.findBySupplierId(suplierId);
@@ -92,7 +92,7 @@ public class AppealController {
 	
 	/*----------------------*/
 	
-	
+	/*
 	@GetMapping("/procuring_entities/{procuring_entityId}/appeals")
 	public List<Appeal> getAppealsByProcuring_entitiesId(@PathVariable Long procuring_entityId){
 		return appealRepository.fingByProcuring_entityId(procuring_entityId);
@@ -130,7 +130,7 @@ public class AppealController {
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Appeal not found with id " + appealId));
     }
-
+	 */
     
     
     //Export to excel

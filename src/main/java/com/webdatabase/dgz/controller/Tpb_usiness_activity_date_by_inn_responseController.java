@@ -44,7 +44,7 @@ public class Tpb_usiness_activity_date_by_inn_responseController {
 		return tpb_usiness_activity_date_by_inn_responseRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/tpb_usiness_activity_date_by_inn_responses{id}")
+	@GetMapping("/tpb_usiness_activity_date_by_inn_responses/{id}")
 	public Optional<Tpb_usiness_activity_date_by_inn_response> getOne(@PathVariable Long id){
 		return tpb_usiness_activity_date_by_inn_responseRepository.findById(id);
 	}
@@ -54,7 +54,7 @@ public class Tpb_usiness_activity_date_by_inn_responseController {
 		return tpb_usiness_activity_date_by_inn_responseRepository.save(tpb_usiness_activity_date_by_inn_response);
 	}
 	
-	@PutMapping("/tpb_usiness_activity_date_by_inn_responses{id}")
+	@PutMapping("/tpb_usiness_activity_date_by_inn_responses/{id}")
 	public Tpb_usiness_activity_date_by_inn_response updateTpb_usiness_activity_date_by_inn_response(@PathVariable Long id, @Valid @RequestBody Tpb_usiness_activity_date_by_inn_response tpb_usiness_activity_date_by_inn_responseRequest) {
 		return tpb_usiness_activity_date_by_inn_responseRepository.findById(id)
 				.map(tpb_usiness_activity -> {
@@ -70,7 +70,7 @@ public class Tpb_usiness_activity_date_by_inn_responseController {
 				}).orElseThrow(() -> new ResourceNotFoundException("Tpb usiness activity date by inn response not found with id "+id));
 	}
 	
-	@DeleteMapping("/tpb_usiness_activity_date_by_inn_responses{id}")
+	@DeleteMapping("/tpb_usiness_activity_date_by_inn_responses/{id}")
 	public ResponseEntity<?> deleteTpb_usiness_activity_date_by_inn_response(@PathVariable Long id) {
 		return tpb_usiness_activity_date_by_inn_responseRepository.findById(id)
 				.map(tpb_usiness_activity -> {

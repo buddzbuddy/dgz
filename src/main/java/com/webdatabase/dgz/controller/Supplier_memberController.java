@@ -45,11 +45,6 @@ public class Supplier_memberController {
 	@Autowired
 	private Member_typeRepository member_typeRepository;
 	
-	@GetMapping("/supplier_members")
-	public Page<Supplier_member> getAllSupplier_member(Pageable pageable){
-		return supplier_memberRepository.findAll(pageable);
-	}
-	
 	@GetMapping("/suppliers/{supplierId}/supplier_members")
 	public List<Supplier_member> getSupplier_memberSupplier(@PathVariable Long supplierId){
 		return supplier_memberRepository.findBySupplierId(supplierId);
@@ -120,6 +115,7 @@ public class Supplier_memberController {
 	/*----------------------*/
 	
 	
+	/*
 	@GetMapping("/member_types/{member_typeId}/supplier_members")
 	public List<Supplier_member> getSupplier_memberMember_type(@PathVariable Long member_typeId){
 		return supplier_memberRepository.findByMember_typeId(member_typeId);
@@ -186,7 +182,7 @@ public class Supplier_memberController {
 				}).orElseThrow(() -> new ResourceNotFoundException("Supplier member not found with id "+ supplier_memberId));
 	}
 	
-	
+	*/
 	
 	//export to Excel
 	

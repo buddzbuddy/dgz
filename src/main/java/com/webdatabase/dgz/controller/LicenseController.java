@@ -46,10 +46,6 @@ public class LicenseController {
 	@Autowired
 	private License_typeRepository license_typeRepository;
 	
-	@GetMapping("/licenses")
-    public Page<License> getAll(Pageable pageable) {
-        return licenseRepository.findAll(pageable);
-    }
 
     @GetMapping("/suppliers/{supplierId}/licenses")
     public List<License> getLicensesBySupplierId(@PathVariable Long supplierId) {
@@ -104,7 +100,7 @@ public class LicenseController {
     
     
     
-    
+    /*
     
     
     @GetMapping("/license_types/{license_typeId}/licenses")
@@ -142,7 +138,7 @@ public class LicenseController {
     }
 
 
-    @DeleteMapping("/supplier/{supplierId}/licenses/{licenseId}")
+    @DeleteMapping("/license_types/{license_typeId}/licenses/{licenseId}")
     public ResponseEntity<?> deleteLicenseLicense_type(@PathVariable Long license_typeId, @PathVariable Long licenseId) {
         if (!license_typeRepository.existsById(license_typeId)) {
 			throw new ResourceNotFoundException("License type not found with id" + license_typeId);
@@ -155,6 +151,8 @@ public class LicenseController {
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("License not found with id " + licenseId));
     }
+    */
+    
     
     //export to Excel
     

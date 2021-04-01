@@ -42,11 +42,6 @@ public class Pension_infoController {
 	@Autowired 
 	private Supplier_memberRepository supplier_memberRepository;
 	
-	@GetMapping("/pension_infos")
-    public Page<Pension_info> getAll(Pageable pageable) {
-        return pension_infoRepository.findAll(pageable);
-    }
-
     @GetMapping("/supplier_members/{supplier_memberId}/pension_infos")
     public List<Pension_info> getPension_infosBySupplier_memberId(@PathVariable Long supplier_memberId) {
         return pension_infoRepository.findBySupplier_memberId(supplier_memberId);

@@ -71,6 +71,8 @@ public class Ownership_typeController {
 				}).orElseThrow(() -> new ResourceNotFoundException("Ownership type not found with id "+ownership_typeId));
 	}
 	
+	//export to excel
+	
 	@Autowired
 	private Ownership_typeService ownership_typeService;
 	

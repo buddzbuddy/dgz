@@ -10,5 +10,5 @@ import com.webdatabase.dgz.model.Supplier_member;
 @Repository
 public interface Supplier_memberRepository extends JpaRepository<Supplier_member, Long> {
 	List<Supplier_member> findBySupplierId(Long supplierId);
-	List<Supplier_member> findByMember_typeId(Long member_typeId); 
+	/*List<Supplier_member> findByMember_typeId(Long member_typeId); */
 }

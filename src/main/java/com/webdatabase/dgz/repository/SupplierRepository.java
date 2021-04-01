@@ -9,6 +9,6 @@ import com.webdatabase.dgz.model.Supplier;
 
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
-	List<Supplier> findByOwnership_typeId(Long ownership_typeId);
+	/*List<Supplier> findByOwnership_typeId(Long ownership_typeId);*/
 	List<Supplier> findByIndustryId(Long industryId);
 }

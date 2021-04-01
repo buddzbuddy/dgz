@@ -10,5 +10,5 @@ import com.webdatabase.dgz.model.License;
 @Repository
 public interface LicenseRepository extends JpaRepository<License, Long>{
 	List<License> findBySupplierId(Long supplierId);
-	List<License> findByLicense_typeId(Long license_typeId);
+	/*List<License> findByLicense_typeId(Long license_typeId);*/
 }

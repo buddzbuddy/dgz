@@ -43,7 +43,7 @@ public class Tp_data_by_inn_for_business_activity_responseController {
 		return tp_data_by_inn_for_business_activity_responseRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/tp_data_by_inn_for_business_activity_responses{id}")
+	@GetMapping("/tp_data_by_inn_for_business_activity_responses/{id}")
 	public Optional<Tp_data_by_inn_for_business_activity_response> getOne(@PathVariable Long id){
 		return tp_data_by_inn_for_business_activity_responseRepository.findById(id);
 	}
@@ -53,7 +53,7 @@ public class Tp_data_by_inn_for_business_activity_responseController {
 		return tp_data_by_inn_for_business_activity_responseRepository.save(tp_data_by_inn_for_business_activity_response);
 	}
 	
-	@PutMapping("/tp_data_by_inn_for_business_activity_responses{id}")
+	@PutMapping("/tp_data_by_inn_for_business_activity_responses/{id}")
 	public Tp_data_by_inn_for_business_activity_response update(@PathVariable Long id, @Valid @RequestBody Tp_data_by_inn_for_business_activity_response tp_data_by_inn_for_business_activity_responseRequest) {
 		return tp_data_by_inn_for_business_activity_responseRepository.findById(id)
 				.map(tp_data_by_inn ->{
@@ -66,7 +66,7 @@ public class Tp_data_by_inn_for_business_activity_responseController {
 				}).orElseThrow(()-> new ResourceNotFoundException("Tp data by inn for business activity response not found with id "+id));
 	}
 	
-	@DeleteMapping("/tp_data_by_inn_for_business_activity_responses{id}")
+	@DeleteMapping("/tp_data_by_inn_for_business_activity_responses/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		return tp_data_by_inn_for_business_activity_responseRepository.findById(id)
 				.map(tp_data_by_inn -> {

@@ -43,7 +43,7 @@ public class RegistratorController {
 		return registratorRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/registrators{id}")
+	@GetMapping("/registrators/{id}")
 	public Optional<Registrator> getOneRegistrator (@PathVariable Long id){
 		return registratorRepository.findById(id);
 	}
@@ -52,7 +52,7 @@ public class RegistratorController {
 	public Registrator createRegistrator(@Valid @RequestBody Registrator registrator) {
 		return registratorRepository.save(registrator);
 	}
-	@PutMapping("/registrators{id}")
+	@PutMapping("/registrators/{id}")
 	public Registrator updateRegistrator(@PathVariable Long id, @Valid @RequestBody Registrator registratorRequest) {
 		return registratorRepository.findById(id)
 				.map(registrator ->{
@@ -63,7 +63,7 @@ public class RegistratorController {
 				}).orElseThrow(()-> new ResourceNotFoundException("Registrator not found with id "+id));
 	}
 	
-	@DeleteMapping("/registrators{id}")
+	@DeleteMapping("/registrators/{id}")
 	public ResponseEntity<?> deleteRegistrator(@PathVariable Long id){
 		return registratorRepository.findById(id)
 				.map(registrator ->{

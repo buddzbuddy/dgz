@@ -43,7 +43,7 @@ public class Taxe_codeController {
 		return taxe_codeRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/taxe_codes{id}")
+	@GetMapping("/taxe_codes/{id}")
 	public Optional<Taxe_code> getOneTaxe_code(@PathVariable Long id){
 		return taxe_codeRepository.findById(id);
 	}
@@ -53,7 +53,7 @@ public class Taxe_codeController {
 		return taxe_codeRepository.save(taxe_code);
 	}
 	
-	@PutMapping("/taxe_codes{id}")
+	@PutMapping("/taxe_codes/{id}")
 	public Taxe_code updateTaxe_code(@PathVariable Long id, @Valid @RequestBody Taxe_code taxe_codeRequest) {
 		return taxe_codeRepository.findById(id)
 				.map(taxe_code ->{
@@ -63,7 +63,7 @@ public class Taxe_codeController {
 					return taxe_codeRepository.save(taxe_code);
 				}).orElseThrow(()-> new ResourceNotFoundException("Taxe code not found with id "+id));
 	}
-	@DeleteMapping("/taxe_codes{id}")
+	@DeleteMapping("/taxe_codes/{id}")
 	public ResponseEntity<?> deleteTaxe_code(@PathVariable Long id){
 		return taxe_codeRepository.findById(id)
 				.map(taxe_code -> {

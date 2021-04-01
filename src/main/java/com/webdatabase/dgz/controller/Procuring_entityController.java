@@ -43,9 +43,9 @@ public class Procuring_entityController {
 		return procuring_entityRepository.findAll(pageable);
 	}
 	
-	@GetMapping("/procuring_entities{id}")
-	public Optional<Procuring_entity> getOneProcuring_entity(@PathVariable Long id){
-		return procuring_entityRepository.findById(id);
+	@GetMapping("/procuring_entities/{procuring_entityId}")
+	public Optional<Procuring_entity> getOneProcuring_entity(@PathVariable Long procuring_entityId){
+		return procuring_entityRepository.findById(procuring_entityId);
 	}
 	
 	@PostMapping("/procuring_entities")
@@ -53,24 +53,24 @@ public class Procuring_entityController {
 		return procuring_entityRepository.save(procuring_entity);
 	}
 	
-	@PutMapping("/procuring_entities{id}")
-	public Procuring_entity updateProcuring_entity(@PathVariable Long id, @Valid @RequestBody Procuring_entity procuring_entityRequest) {
-		return procuring_entityRepository.findById(id)
+	@PutMapping("/procuring_entities/{procuring_entityId}")
+	public Procuring_entity updateProcuring_entity(@PathVariable Long procuring_entityId, @Valid @RequestBody Procuring_entity procuring_entityRequest) {
+		return procuring_entityRepository.findById(procuring_entityId)
 				.map(procuring_entity -> {
 					procuring_entity.setAddress(procuring_entityRequest.getAddress());
 					procuring_entity.setContactData(procuring_entityRequest.getContactData());
 					procuring_entity.setInn(procuring_entityRequest.getInn());
 					procuring_entity.setName(procuring_entityRequest.getName());
 					return procuring_entityRepository.save(procuring_entity);
-				}).orElseThrow(()-> new ResourceNotFoundException("Procuring entity not found with id "+id));
+				}).orElseThrow(()-> new ResourceNotFoundException("Procuring entity not found with id "+procuring_entityId));
 	}
-	@DeleteMapping("/procuring_entities{id}")
-	public ResponseEntity<?> deleteProcuring_entity(@PathVariable Long id){
-		return procuring_entityRepository.findById(id)
+	@DeleteMapping("/procuring_entities/{procuring_entityId}")
+	public ResponseEntity<?> deleteProcuring_entity(@PathVariable Long procuring_entityId){
+		return procuring_entityRepository.findById(procuring_entityId)
 				.map(procuring_e -> {
 					procuring_entityRepository.delete(procuring_e);
 					return ResponseEntity.ok().build();
-				}).orElseThrow(()-> new ResourceNotFoundException("Procuring entity not found with id "+id));
+				}).orElseThrow(()-> new ResourceNotFoundException("Procuring entity not found with id "+procuring_entityId));
 	}
 	
 	// export to Excel

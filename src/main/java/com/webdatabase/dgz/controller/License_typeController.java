@@ -45,8 +45,8 @@ public class License_typeController {
     }
 
     @GetMapping("/license_types/{license_typeId}")
-    public Optional<License_type> getOne(@PathVariable Long id) {
-        return license_typeRepository.findById(id);
+    public Optional<License_type> getOne(@PathVariable Long license_typeId) {
+        return license_typeRepository.findById(license_typeId);
     }
 
 

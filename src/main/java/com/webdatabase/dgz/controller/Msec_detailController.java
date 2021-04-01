@@ -44,7 +44,7 @@ public class Msec_detailController {
 		return msec_detailRepository.findAll(pageable);
 	}
 	
-	@GetMapping("msec_details{id}")
+	@GetMapping("msec_details/{id}")
 	public Optional<Msec_detail> getOneMsec_detail(@PathVariable Long id){
 		return msec_detailRepository.findById(id);
 	}
@@ -54,7 +54,7 @@ public class Msec_detailController {
 		return msec_detailRepository.save(msec_detail);
 	}
 	
-	@PutMapping("msec_details{id}")
+	@PutMapping("msec_details/{id}")
 	public Msec_detail updateMsec_detail(@PathVariable Long id, @Valid @RequestBody Msec_detail msec_detailRequest) {
 		return msec_detailRepository.findById(id)
 				.map(msec_detail ->{
@@ -70,7 +70,7 @@ public class Msec_detailController {
 				}).orElseThrow(()-> new ResourceNotFoundException("Msec detail not found with id "+ id));
 	}
 	
-	@DeleteMapping("msec_details{id}")
+	@DeleteMapping("msec_details/{id}")
 	public ResponseEntity<?> deleteMsec_detail(@PathVariable Long id){
 		return msec_detailRepository.findById(id)
 				.map(msec_detail -> {

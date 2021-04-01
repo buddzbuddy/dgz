@@ -44,13 +44,13 @@ public class SupplierController {
 	
 	@Autowired
 	private IndustryRepository industryRepository;
-	
+	/*
 	@GetMapping("/suppliers")
 	public Page<Supplier> getAllSupplier(Pageable pageable){
 		return supplierRepository.findAll(pageable);
 	}
-	
-	@GetMapping("/ownership_types/{ownership_typeId}/suppliers}")
+	*/
+	/*@GetMapping("/ownership_types/{ownership_typeId}/suppliers}")
 	public List<Supplier> getSuppliersOwnership_typeId(@PathVariable Long ownership_typeId){
 		return supplierRepository.findByOwnership_typeId(ownership_typeId);
 	}
@@ -61,14 +61,14 @@ public class SupplierController {
 				.map(ownership_type -> {
 					supplier.setOwnership_type(ownership_type);
 					return supplierRepository.save(supplier);
-				}).orElseThrow(() -> new ResourceNotFoundException("Ownership type not found with id "+ ownership_typeId));
+				}).orElseThrow(() -> new ResourceNotFoundException("Ownership_type not found with id "+ ownership_typeId));
 	}
 	
 	
 	@PutMapping("/ownership_types/{ownership_typeId}/suppliers/{supplierId}")
 	public Supplier updateSupplierOwnership_type(@PathVariable Long ownership_typeId, @PathVariable Long supplierId, @Valid @RequestBody Supplier supplierRequest) {
 		if (!ownership_typeRepository.existsById(ownership_typeId)) {
-			throw new ResourceNotFoundException("Ownership type not found with id "+ ownership_typeId);
+			throw new ResourceNotFoundException("Ownership_type not found with id "+ ownership_typeId);
 		}
 		
 		return supplierRepository.findById(supplierId)
@@ -92,7 +92,7 @@ public class SupplierController {
 	@DeleteMapping("/ownership_types/{ownership_typeId}/suppliers/{supplierId}")
 	public ResponseEntity<?> deleteSupplierOwnership_type(@PathVariable Long supplierId, @PathVariable Long ownership_typeId){
 		if (!ownership_typeRepository.existsById(ownership_typeId)) {
-			throw new ResourceNotFoundException("Ownership type not found with id "+ ownership_typeId);
+			throw new ResourceNotFoundException("Ownership_type not found with id "+ ownership_typeId);
 		}
 		
 		return supplierRepository.findById(supplierId)
@@ -101,7 +101,7 @@ public class SupplierController {
 					return ResponseEntity.ok().build();
 				}).orElseThrow(()-> new ResourceNotFoundException("Supplier not found with id "+supplierId));
 	}
-	
+	*/
 	/*----------------------*/
 	
 	

@@ -66,7 +66,7 @@ public class IndustryController {
     }
 
 
-    @DeleteMapping("/industries/{industryId}")
+    @DeleteMapping("/industries/{id}")
     public ResponseEntity<?> delete(@PathVariable Long industryId) {
         return industryRepository.findById(industryId)
                 .map(industry -> {
